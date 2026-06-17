@@ -175,8 +175,15 @@ export default function ClubPublicProfilePage({ hideHeader = false }: { hideHead
   const filteredSquad = positionFilter === 'All' ? club.squad : club.squad.filter(p => p.position === positionFilter);
 
   return (
-    <div className="min-h-screen bg-page">
+    <div className="min-h-screen" style={{ background: '#080F1A' }}>
       {!hideHeader && <PublicHeader />}
+      <style>{`
+        @keyframes fadeIn  { from{opacity:0} to{opacity:1} }
+        @keyframes slideUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes scaleIn { from{opacity:0;transform:scale(0.85)} to{opacity:1;transform:scale(1)} }
+        @keyframes liveFlash { 0%,100%{opacity:1} 50%{opacity:0.25} }
+        @keyframes pulseOrb  { 0%,100%{opacity:0.5} 50%{opacity:0.9} }
+      `}</style>
 
       {/* Sticky mini-bar */}
       {showStickyBar && (
@@ -205,30 +212,32 @@ export default function ClubPublicProfilePage({ hideHeader = false }: { hideHead
       )}
 
       {/* Cover banner */}
-      <div ref={introRef} className="relative overflow-hidden" style={{ height: '40vh', minHeight: 280 }}>
+      <div ref={introRef} className="relative overflow-hidden" style={{ height: '42vh', minHeight: 290 }}>
         <div ref={bannerRef} className="absolute inset-0">
           <img src={club.coverImage} alt="" className="w-full h-[120%] object-cover object-center" />
-          <div className="absolute inset-0 hero-overlay-bottom" />
-          <div className="absolute inset-0" style={{ background: 'rgba(12,26,43,0.5)' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(8,15,26,0.2) 0%, rgba(8,15,26,0.85) 100%)' }} />
+          <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse at 30% 100%, ${club.primaryColor}18, transparent 60%)` }} />
         </div>
-        <button onClick={() => navigate(-1)} className="absolute top-20 left-4 lg:left-8 z-10 flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors">
-          <ChevronLeft size={16} /> Back
+        <button onClick={() => navigate(-1)} className="absolute top-20 left-4 lg:left-8 z-10 flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors px-3 py-1.5 rounded-xl"
+          style={{ background: 'rgba(0,0,0,0.3)', backdropFilter: 'blur(8px)' }}>
+          <ChevronLeft size={14} /> Back
         </button>
       </div>
 
       {/* Club intro card */}
-      <div className="bg-page border-b border-white/[0.06]">
+      <div style={{ background: '#0A1421', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
         <div className="max-w-6xl mx-auto px-4 lg:px-8">
           <div className="relative pb-5">
             {/* Club logo */}
             <div className="absolute -top-12 left-0 z-10" style={{ animation: 'scaleIn 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.1s both' }}>
-              <div className="w-24 h-24 rounded-2xl border-4 border-[#0C1A2B] flex items-center justify-center font-display font-bold text-2xl"
-                style={{ background: `linear-gradient(135deg, ${club.primaryColor}25, ${club.primaryColor}10)`, borderTopColor: `${club.primaryColor}`, boxShadow: `0 8px 32px ${club.primaryColor}30`, color: club.primaryColor, borderColor: club.primaryColor }}>
+              <div className="w-24 h-24 rounded-2xl flex items-center justify-center font-display font-bold text-2xl"
+                style={{ background: `linear-gradient(135deg, ${club.primaryColor}25, ${club.primaryColor}08)`, border: `2px solid ${club.primaryColor}50`, boxShadow: `0 8px 32px ${club.primaryColor}30, 0 0 0 4px #0A1421`, color: club.primaryColor }}>
                 {club.initials}
               </div>
               {club.isVerified && (
-                <div className="absolute -bottom-1.5 -right-1.5 w-6 h-6 rounded-full bg-emerald border-2 border-[#0C1A2B] flex items-center justify-center">
-                  <ShieldCheck size={12} className="text-white" />
+                <div className="absolute -bottom-1.5 -right-1.5 w-7 h-7 rounded-full flex items-center justify-center"
+                  style={{ background: '#1FB57A', border: '2px solid #0A1421', boxShadow: '0 0 10px rgba(31,181,122,0.5)' }}>
+                  <ShieldCheck size={13} className="text-white" />
                 </div>
               )}
             </div>
@@ -316,7 +325,7 @@ export default function ClubPublicProfilePage({ hideHeader = false }: { hideHead
       </div>
 
       {/* Body */}
-      <div className="max-w-6xl mx-auto px-4 lg:px-8 py-6 pb-20 lg:pb-10">
+      <div className="max-w-6xl mx-auto px-4 lg:px-8 py-6 pb-20 lg:pb-10" style={{ background: '#080F1A' }}>
         <div className="flex gap-6 items-start">
           {/* Main content */}
           <div className="flex-1 min-w-0 space-y-4">
@@ -325,23 +334,26 @@ export default function ClubPublicProfilePage({ hideHeader = false }: { hideHead
             {activeTab === 'Overview' && (
               <>
                 {/* About */}
-                <div className="card-glass p-5">
+                <div className="rounded-2xl p-5" style={{ background: '#0D1F33', border: '1px solid rgba(255,255,255,0.07)' }}>
                   <h2 className="font-display font-bold text-white text-base mb-3">About {club.shortName}</h2>
                   {descParagraphs.slice(0, aboutExpanded ? undefined : 1).map((p, i) => (
-                    <p key={i} className="text-sm text-slate-300 leading-relaxed mb-2">{p}</p>
+                    <p key={i} className="text-sm leading-relaxed mb-2" style={{ color: 'rgba(244,248,252,0.7)' }}>{p}</p>
                   ))}
                   {descParagraphs.length > 1 && (
                     <button onClick={() => setAboutExpanded(e => !e)}
-                      className="text-xs font-semibold text-azure hover:text-azure/80 transition-colors">
+                      className="text-xs font-semibold transition-colors mt-1" style={{ color: club.primaryColor }}>
                       {aboutExpanded ? 'Show less' : '…show more'}
                     </button>
                   )}
-                  <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-white/[0.06]">
+                  <div className="flex flex-wrap gap-2 mt-4 pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
                     {club.values.map(v => (
-                      <span key={v} className="text-[11px] px-2.5 py-1 rounded-full bg-white/[0.05] border border-white/10 text-muted font-medium">{v}</span>
+                      <span key={v} className="text-[11px] px-2.5 py-1 rounded-full font-semibold"
+                        style={{ background: `${club.primaryColor}10`, border: `1px solid ${club.primaryColor}25`, color: club.primaryColor }}>
+                        {v}
+                      </span>
                     ))}
                   </div>
-                  <div className="flex items-center gap-4 mt-4 pt-4 border-t border-white/[0.06] text-xs text-muted flex-wrap">
+                  <div className="flex items-center gap-4 mt-4 pt-4 text-xs flex-wrap" style={{ borderTop: '1px solid rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.35)' }}>
                     <span className="flex items-center gap-1.5"><Globe size={11} /> {club.website}</span>
                     <span className="flex items-center gap-1.5"><Building2 size={11} /> {club.stadium}</span>
                     <span className="flex items-center gap-1.5"><Calendar size={11} /> Est. {club.founded}</span>
@@ -349,23 +361,29 @@ export default function ClubPublicProfilePage({ hideHeader = false }: { hideHead
                 </div>
 
                 {/* Activity */}
-                <div className="card-glass p-5">
+                <div className="rounded-2xl p-5" style={{ background: '#0D1F33', border: '1px solid rgba(255,255,255,0.07)' }}>
                   <h2 className="font-display font-bold text-white text-base mb-4">Latest Updates</h2>
                   <div className="space-y-4">
                     {club.activity.map(post => (
-                      <div key={post.id} className="border border-white/[0.06] rounded-xl overflow-hidden bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
-                        {post.image && <img src={post.image} alt="" className="w-full h-40 object-cover" />}
+                      <div key={post.id} className="rounded-xl overflow-hidden transition-all hover:border-white/10"
+                        style={{ border: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)' }}>
+                        {post.image && (
+                          <div className="relative overflow-hidden" style={{ height: 160 }}>
+                            <img src={post.image} alt="" className="w-full h-full object-cover" />
+                            <div className="absolute inset-0" style={{ background: 'linear-gradient(to top,rgba(13,31,51,0.7),transparent)' }} />
+                          </div>
+                        )}
                         <div className="p-4">
                           <div className="flex items-center gap-2 mb-2">
-                            <div className="w-6 h-6 rounded-lg flex items-center justify-center text-[9px] font-bold"
+                            <div className="w-6 h-6 rounded-lg flex items-center justify-center text-[9px] font-black"
                               style={{ background: `${club.primaryColor}18`, color: club.primaryColor, border: `1px solid ${club.primaryColor}30` }}>
                               {club.initials}
                             </div>
-                            <span className="text-xs font-semibold text-white">{club.shortName}</span>
-                            <span className="text-[10px] text-muted">· {post.time}</span>
+                            <span className="text-xs font-bold text-white">{club.shortName}</span>
+                            <span className="text-[10px]" style={{ color: 'rgba(255,255,255,0.3)' }}>· {post.time}</span>
                           </div>
-                          <p className="text-sm text-slate-300 leading-relaxed">{post.text}</p>
-                          <div className="flex items-center gap-3 mt-3 text-xs text-muted">
+                          <p className="text-sm leading-relaxed" style={{ color: 'rgba(244,248,252,0.75)' }}>{post.text}</p>
+                          <div className="flex items-center gap-3 mt-3 text-xs" style={{ color: 'rgba(255,255,255,0.3)' }}>
                             <span className="flex items-center gap-1"><Heart size={11} /> {post.reactions.toLocaleString()}</span>
                           </div>
                         </div>
@@ -375,21 +393,23 @@ export default function ClubPublicProfilePage({ hideHeader = false }: { hideHead
                 </div>
 
                 {/* Coaching Staff */}
-                <div className="card-glass p-5">
+                <div className="rounded-2xl p-5" style={{ background: '#0D1F33', border: '1px solid rgba(255,255,255,0.07)' }}>
                   <h2 className="font-display font-bold text-white text-base mb-4">Coaching Staff</h2>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     {club.coachingStaff.map(staff => (
-                      <div key={staff.name} className="text-center">
-                        <div className="relative w-14 h-14 rounded-xl overflow-hidden border border-white/10 mx-auto mb-2">
+                      <div key={staff.name} className="text-center group">
+                        <div className="relative w-14 h-14 rounded-xl overflow-hidden mx-auto mb-2 transition-all group-hover:scale-105"
+                          style={{ border: `1.5px solid ${club.primaryColor}25`, boxShadow: `0 4px 12px rgba(0,0,0,0.3)` }}>
                           <img src={staff.image} alt={staff.name} className="w-full h-full object-cover" />
                           {staff.isVerified && (
-                            <div className="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-emerald border border-[#0C1A2B] flex items-center justify-center">
-                              <ShieldCheck size={8} className="text-white" />
+                            <div className="absolute bottom-0 right-0 w-5 h-5 rounded-full flex items-center justify-center"
+                              style={{ background: '#1FB57A', border: '1.5px solid #0A1421', boxShadow: '0 0 6px rgba(31,181,122,0.6)' }}>
+                              <ShieldCheck size={9} className="text-white" />
                             </div>
                           )}
                         </div>
-                        <p className="text-xs font-semibold text-white truncate">{staff.name}</p>
-                        <p className="text-[10px] text-muted truncate">{staff.role}</p>
+                        <p className="text-xs font-bold text-white truncate">{staff.name}</p>
+                        <p className="text-[10px] truncate" style={{ color: 'rgba(255,255,255,0.35)' }}>{staff.role}</p>
                       </div>
                     ))}
                   </div>
@@ -399,13 +419,18 @@ export default function ClubPublicProfilePage({ hideHeader = false }: { hideHead
 
             {/* ─ SQUAD ─ */}
             {activeTab === 'Squad' && (
-              <div className="card-glass p-5">
+              <div className="rounded-2xl p-5" style={{ background: '#0D1F33', border: '1px solid rgba(255,255,255,0.07)' }}>
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="font-display font-bold text-white text-base">Current Squad</h2>
                   <div className="flex gap-1 flex-wrap">
                     {positions.map(pos => (
                       <button key={pos} onClick={() => setPositionFilter(pos)}
-                        className={`px-2.5 py-1 rounded-lg text-[10px] font-semibold transition-all ${positionFilter === pos ? 'bg-azure/20 text-azure border border-azure/30' : 'bg-white/[0.04] text-muted border border-white/10 hover:border-white/20 hover:text-white'}`}>
+                        className="px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all"
+                        style={{
+                          background: positionFilter === pos ? `${club.primaryColor}20` : 'rgba(255,255,255,0.04)',
+                          color: positionFilter === pos ? club.primaryColor : 'rgba(255,255,255,0.4)',
+                          border: `1px solid ${positionFilter === pos ? `${club.primaryColor}35` : 'rgba(255,255,255,0.08)'}`,
+                        }}>
                         {pos}
                       </button>
                     ))}
@@ -414,32 +439,37 @@ export default function ClubPublicProfilePage({ hideHeader = false }: { hideHead
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {filteredSquad.map(player => (
                     <Link key={player.id} to={`/athletes/${player.id}`}
-                      className="flex items-center gap-3 border border-white/[0.06] rounded-xl px-4 py-3 bg-white/[0.02] hover:bg-white/[0.06] hover:border-white/15 transition-all group">
+                      className="flex items-center gap-3 rounded-xl px-4 py-3 transition-all group"
+                      style={{ border: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)' }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.05)'; (e.currentTarget as HTMLElement).style.borderColor = `${POSITION_COLORS[player.position] ?? '#2F80ED'}30`; }}
+                      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.02)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.06)'; }}>
                       <div className="relative flex-shrink-0">
-                        <img src={player.image} alt={player.name} className="w-10 h-10 rounded-xl object-cover border border-white/10" />
+                        <img src={player.image} alt={player.name} className="w-10 h-10 rounded-xl object-cover"
+                          style={{ border: `1.5px solid ${POSITION_COLORS[player.position] ?? '#2F80ED'}25` }} />
                         {player.isVerified && (
-                          <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full bg-emerald border-2 border-[#0C1A2B] flex items-center justify-center">
+                          <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full flex items-center justify-center"
+                            style={{ background: '#1FB57A', border: '1.5px solid #0D1F33', boxShadow: '0 0 6px rgba(31,181,122,0.5)' }}>
                             <ShieldCheck size={8} className="text-white" />
                           </div>
                         )}
                       </div>
-                      <div className="flex items-center justify-center w-7 h-7 rounded-lg text-xs font-bold flex-shrink-0"
+                      <div className="flex items-center justify-center w-7 h-7 rounded-lg text-xs font-black flex-shrink-0"
                         style={{ background: `${POSITION_COLORS[player.position] ?? '#2F80ED'}18`, color: POSITION_COLORS[player.position] ?? '#2F80ED', border: `1px solid ${POSITION_COLORS[player.position] ?? '#2F80ED'}30` }}>
                         {player.number}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-semibold text-white group-hover:text-azure transition-colors truncate">{player.name}</p>
-                        <p className="text-xs text-muted">{player.position} · {player.nationality} · Age {player.age}</p>
+                        <p className="text-sm font-bold text-white truncate">{player.name}</p>
+                        <p className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>{player.position} · {player.nationality} · Age {player.age}</p>
                       </div>
                       <div className="flex-shrink-0 text-right">
-                        <span className="font-display font-bold text-volt text-sm tabular">{player.score}</span>
-                        <p className="text-[10px] text-muted">AI</p>
+                        <span className="font-display font-black text-sm tabular" style={{ color: '#B8F135' }}>{player.score}</span>
+                        <p className="text-[9px]" style={{ color: 'rgba(255,255,255,0.3)' }}>AI</p>
                       </div>
                     </Link>
                   ))}
                 </div>
                 {filteredSquad.length === 0 && (
-                  <p className="text-center text-muted text-sm py-8">No players found for this position.</p>
+                  <p className="text-center text-sm py-8" style={{ color: 'rgba(255,255,255,0.3)' }}>No players found for this position.</p>
                 )}
               </div>
             )}
@@ -447,49 +477,61 @@ export default function ClubPublicProfilePage({ hideHeader = false }: { hideHead
             {/* ─ OPEN TRIALS ─ */}
             {activeTab === 'Open Trials' && (
               <div className="space-y-4">
-                <div className="card-glass p-5">
+                <div className="rounded-2xl p-5" style={{ background: '#0D1F33', border: '1px solid rgba(255,255,255,0.07)' }}>
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="w-2 h-2 rounded-full bg-emerald animate-pulse" />
+                    <span className="w-2 h-2 rounded-full" style={{ background: '#1FB57A', boxShadow: '0 0 6px rgba(31,181,122,0.7)', animation: 'liveFlash 1.5s infinite' }} />
                     <h2 className="font-display font-bold text-white text-base">Open Trials & Transfer Targets</h2>
                   </div>
-                  <p className="text-xs text-muted mb-4">{club.openTrials.length} position{club.openTrials.length !== 1 ? 's' : ''} available · Applications open</p>
-                  <div className="space-y-4">
+                  <p className="text-xs mb-4" style={{ color: 'rgba(255,255,255,0.35)' }}>{club.openTrials.length} position{club.openTrials.length !== 1 ? 's' : ''} available · Applications open</p>
+                  <div className="space-y-3">
                     {club.openTrials.map(trial => {
                       const isOpen = expandedTrial === trial.id;
-                      const typeColors = { trial: 'bg-volt/10 border-volt/25 text-volt', transfer: 'bg-azure/10 border-azure/25 text-azure', loan: 'bg-amber/10 border-amber/25 text-amber' };
+                      const typeColors = {
+                        trial:    { bg: 'rgba(184,241,53,0.1)',  border: 'rgba(184,241,53,0.25)',  color: '#B8F135' },
+                        transfer: { bg: 'rgba(47,128,237,0.1)',  border: 'rgba(47,128,237,0.25)',  color: '#2F80ED' },
+                        loan:     { bg: 'rgba(245,166,35,0.1)', border: 'rgba(245,166,35,0.25)', color: '#F5A623' },
+                      };
+                      const tc = typeColors[trial.type];
                       return (
-                        <div key={trial.id} className="border border-white/[0.08] rounded-2xl overflow-hidden">
-                          <div className="p-4 cursor-pointer hover:bg-white/[0.03] transition-colors"
+                        <div key={trial.id} className="rounded-2xl overflow-hidden transition-all"
+                          style={{ border: `1px solid ${isOpen ? `${club.primaryColor}30` : 'rgba(255,255,255,0.08)'}`, background: isOpen ? `${club.primaryColor}05` : 'rgba(255,255,255,0.02)' }}>
+                          <div className="p-4 cursor-pointer transition-colors"
                             onClick={() => setExpandedTrial(isOpen ? null : trial.id)}>
                             <div className="flex items-start justify-between gap-3">
                               <div>
                                 <div className="flex items-center gap-2 flex-wrap mb-1">
-                                  <p className="font-semibold text-white">{trial.position}</p>
-                                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${typeColors[trial.type]} capitalize`}>{trial.type}</span>
+                                  <p className="font-bold text-white">{trial.position}</p>
+                                  <span className="text-[10px] font-black px-2 py-0.5 rounded-full capitalize"
+                                    style={{ background: tc.bg, border: `1px solid ${tc.border}`, color: tc.color }}>
+                                    {trial.type}
+                                  </span>
                                 </div>
-                                <div className="flex items-center gap-3 text-xs text-muted">
+                                <div className="flex items-center gap-3 text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>
                                   <span className="flex items-center gap-1"><Target size={10} /> Age {trial.ageRange}</span>
-                                  <span className="flex items-center gap-1"><Clock size={10} /> Deadline {trial.deadline}</span>
+                                  <span className="flex items-center gap-1"><Clock size={10} /> {trial.deadline}</span>
                                   <span className="flex items-center gap-1"><Users size={10} /> {trial.applicants} applied</span>
                                 </div>
                               </div>
-                              {isOpen ? <ChevronUp size={16} className="text-muted flex-shrink-0 mt-1" /> : <ChevronDown size={16} className="text-muted flex-shrink-0 mt-1" />}
+                              {isOpen
+                                ? <ChevronUp size={16} className="flex-shrink-0 mt-1" style={{ color: 'rgba(255,255,255,0.4)' }} />
+                                : <ChevronDown size={16} className="flex-shrink-0 mt-1" style={{ color: 'rgba(255,255,255,0.4)' }} />}
                             </div>
                           </div>
                           {isOpen && (
-                            <div className="px-4 pb-4 border-t border-white/[0.06]">
-                              <p className="text-sm text-slate-400 leading-relaxed mt-3 mb-4">{trial.description}</p>
-                              <p className="text-xs font-bold text-muted uppercase tracking-wider mb-2">Requirements</p>
+                            <div className="px-4 pb-4" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                              <p className="text-sm leading-relaxed mt-3 mb-4" style={{ color: 'rgba(244,248,252,0.65)' }}>{trial.description}</p>
+                              <p className="text-[10px] font-black uppercase tracking-wider mb-2" style={{ color: 'rgba(255,255,255,0.3)' }}>Requirements</p>
                               <ul className="space-y-1.5 mb-4">
                                 {trial.requirements.map((req, i) => (
-                                  <li key={i} className="flex items-start gap-2 text-xs text-slate-400">
-                                    <CheckCircle2 size={12} className="text-emerald flex-shrink-0 mt-0.5" /> {req}
+                                  <li key={i} className="flex items-start gap-2 text-xs" style={{ color: 'rgba(244,248,252,0.65)' }}>
+                                    <CheckCircle2 size={12} style={{ color: '#1FB57A', flexShrink: 0, marginTop: 2 }} /> {req}
                                   </li>
                                 ))}
                               </ul>
                               <Link to="/auth/register"
-                                className="btn-volt px-5 py-2.5 text-sm font-bold rounded-xl inline-flex items-center gap-2">
-                                <Zap size={13} className="text-ink" /> Apply Now
+                                className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-black rounded-xl transition-all hover:scale-[1.02]"
+                                style={{ background: 'linear-gradient(135deg,#B8F135,#8fd600)', color: '#0C1A2B', boxShadow: '0 4px 16px rgba(184,241,53,0.3)' }}>
+                                <Zap size={13} /> Apply Now
                               </Link>
                             </div>
                           )}
@@ -503,15 +545,16 @@ export default function ClubPublicProfilePage({ hideHeader = false }: { hideHead
 
             {/* ─ HONOURS ─ */}
             {activeTab === 'Honours' && (
-              <div className="card-glass p-5">
+              <div className="rounded-2xl p-5" style={{ background: '#0D1F33', border: '1px solid rgba(255,255,255,0.07)' }}>
                 <h2 className="font-display font-bold text-white text-base mb-4">Trophy Cabinet</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {club.trophies.map((trophy, i) => (
-                    <div key={i} className="flex items-center gap-3 border border-volt/20 rounded-xl px-4 py-3 bg-volt/[0.05]">
+                    <div key={i} className="flex items-center gap-3 rounded-xl px-4 py-3 transition-all hover:scale-[1.01]"
+                      style={{ background: 'rgba(184,241,53,0.05)', border: '1px solid rgba(184,241,53,0.15)' }}>
                       <span className="text-2xl">{TROPHY_ICONS[trophy.type]}</span>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-semibold text-white">{trophy.title}</p>
-                        <p className="text-xs text-muted">{trophy.year}{trophy.count ? ` · ${trophy.count}× won` : ''}</p>
+                        <p className="text-sm font-bold text-white">{trophy.title}</p>
+                        <p className="text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>{trophy.year}{trophy.count ? ` · ${trophy.count}× won` : ''}</p>
                       </div>
                     </div>
                   ))}
@@ -521,24 +564,29 @@ export default function ClubPublicProfilePage({ hideHeader = false }: { hideHead
 
             {/* ─ STATISTICS ─ */}
             {activeTab === 'Statistics' && (
-              <div className="card-glass p-5">
-                <h2 className="font-display font-bold text-white text-base mb-1">Current Season</h2>
-                <p className="text-xs text-muted mb-4">{club.league} · 2024–25</p>
+              <div className="rounded-2xl p-5" style={{ background: '#0D1F33', border: '1px solid rgba(255,255,255,0.07)' }}>
+                <h2 className="font-display font-bold text-white text-base mb-0.5">Current Season</h2>
+                <p className="text-xs mb-5" style={{ color: 'rgba(255,255,255,0.3)' }}>{club.league} · 2024–25</p>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-                  {club.currentSeason.map(stat => (
-                    <div key={stat.label} className="stat-tile text-center">
-                      <div className="text-2xl font-display font-bold text-white tabular">{stat.value}</div>
-                      <div className="text-xs text-muted mt-1">{stat.label}</div>
-                      {stat.rank && <div className="text-[10px] text-azure mt-0.5">{stat.rank}</div>}
-                    </div>
-                  ))}
+                  {club.currentSeason.map((stat, i) => {
+                    const colors = ['#2F80ED','#B8F135','#1FB57A','#F5A623','#EF5350'];
+                    const c = colors[i % colors.length];
+                    return (
+                      <div key={stat.label} className="text-center rounded-xl p-3"
+                        style={{ background: `${c}08`, border: `1px solid ${c}15` }}>
+                        <div className="text-2xl font-black text-white tabular">{stat.value}</div>
+                        <div className="text-xs mt-1" style={{ color: 'rgba(255,255,255,0.4)' }}>{stat.label}</div>
+                        {stat.rank && <div className="text-[10px] mt-0.5 font-semibold" style={{ color: c }}>{stat.rank}</div>}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             )}
 
             {/* ─ MEDIA ─ */}
             {activeTab === 'Media' && (
-              <div className="card-glass p-5">
+              <div className="rounded-2xl p-5" style={{ background: '#0D1F33', border: '1px solid rgba(255,255,255,0.07)' }}>
                 <h2 className="font-display font-bold text-white text-base mb-4">Media Gallery</h2>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   {[
@@ -549,8 +597,9 @@ export default function ClubPublicProfilePage({ hideHeader = false }: { hideHead
                     'https://images.pexels.com/photos/46798/the-ball-stadion-football-the-pitch-46798.jpeg?auto=compress&cs=tinysrgb&w=400',
                     'https://images.pexels.com/photos/399187/pexels-photo-399187.jpeg?auto=compress&cs=tinysrgb&w=400',
                   ].map((src, i) => (
-                    <div key={i} className="aspect-square rounded-xl overflow-hidden cursor-pointer hover:opacity-80 transition-opacity">
-                      <img src={src} alt="" className="w-full h-full object-cover" />
+                    <div key={i} className="aspect-square rounded-xl overflow-hidden cursor-pointer group"
+                      style={{ border: '1px solid rgba(255,255,255,0.06)' }}>
+                      <img src={src} alt="" className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
                     </div>
                   ))}
                 </div>
@@ -561,24 +610,24 @@ export default function ClubPublicProfilePage({ hideHeader = false }: { hideHead
           {/* Right rail */}
           <div className="hidden lg:block w-72 flex-shrink-0 sticky top-24 space-y-4">
             {/* Quick stats */}
-            <div className="card-glass p-4">
-              <p className="text-xs font-bold text-muted uppercase tracking-widest mb-4">Club At a Glance</p>
+            <div className="rounded-2xl p-4" style={{ background: '#0D1F33', border: '1px solid rgba(255,255,255,0.07)' }}>
+              <p className="text-[10px] font-black uppercase tracking-widest mb-4" style={{ color: 'rgba(255,255,255,0.3)' }}>Club At a Glance</p>
               <div className="space-y-3">
                 {[
                   { label: 'League Position', value: '1st · UAE Pro League', icon: Trophy },
-                  { label: 'Squad Size', value: `${club.playerCount} players`, icon: Shirt },
-                  { label: 'Stadium', value: club.stadium, icon: Building2 },
-                  { label: 'Founded', value: String(club.founded), icon: Calendar },
-                  { label: 'Open Trials', value: `${club.openTrials.length} positions`, icon: Target },
+                  { label: 'Squad Size',       value: `${club.playerCount} players`, icon: Shirt },
+                  { label: 'Stadium',          value: club.stadium, icon: Building2 },
+                  { label: 'Founded',          value: String(club.founded), icon: Calendar },
+                  { label: 'Open Trials',      value: `${club.openTrials.length} positions`, icon: Target },
                 ].map(item => (
                   <div key={item.label} className="flex items-center gap-3">
                     <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
-                      style={{ background: `${club.primaryColor}15` }}>
+                      style={{ background: `${club.primaryColor}12`, boxShadow: `0 0 8px ${club.primaryColor}15` }}>
                       <item.icon size={13} style={{ color: club.primaryColor }} />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-[10px] text-muted">{item.label}</p>
-                      <p className="text-xs font-semibold text-white truncate">{item.value}</p>
+                      <p className="text-[10px]" style={{ color: 'rgba(255,255,255,0.3)' }}>{item.label}</p>
+                      <p className="text-xs font-bold text-white truncate">{item.value}</p>
                     </div>
                   </div>
                 ))}
@@ -586,33 +635,38 @@ export default function ClubPublicProfilePage({ hideHeader = false }: { hideHead
             </div>
 
             {/* Similar clubs */}
-            <div className="card-glass p-4">
-              <p className="text-xs font-bold text-muted uppercase tracking-widest mb-4">Similar Clubs</p>
-              <div className="space-y-4">
+            <div className="rounded-2xl p-4" style={{ background: '#0D1F33', border: '1px solid rgba(255,255,255,0.07)' }}>
+              <p className="text-[10px] font-black uppercase tracking-widest mb-4" style={{ color: 'rgba(255,255,255,0.3)' }}>Similar Clubs</p>
+              <div className="space-y-3">
                 {SIMILAR_CLUBS.map(c => (
                   <div key={c.id} className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-xl flex items-center justify-center text-xs font-bold flex-shrink-0"
-                      style={{ background: `${c.color}18`, borderColor: `${c.color}30`, color: c.color, border: `1px solid ${c.color}30` }}>
+                    <div className="w-9 h-9 rounded-xl flex items-center justify-center text-xs font-black flex-shrink-0"
+                      style={{ background: `${c.color}15`, border: `1px solid ${c.color}25`, color: c.color }}>
                       {c.initials}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <Link to={`/clubs/${c.id}`} className="text-sm font-semibold text-white hover:text-azure transition-colors block truncate">{c.name}</Link>
-                      <p className="text-xs text-muted truncate">{c.league} · {c.city}</p>
+                      <Link to={`/clubs/${c.id}`} className="text-sm font-bold text-white hover:text-azure transition-colors block truncate">{c.name}</Link>
+                      <p className="text-xs truncate" style={{ color: 'rgba(255,255,255,0.3)' }}>{c.league} · {c.city}</p>
                     </div>
-                    <div className="flex-shrink-0">
-                      {c.isVerified && <ShieldCheck size={12} className="text-emerald" />}
-                    </div>
+                    {c.isVerified && <ShieldCheck size={12} style={{ color: '#1FB57A', filter: 'drop-shadow(0 0 4px rgba(31,181,122,0.5))' }} />}
                   </div>
                 ))}
               </div>
             </div>
 
             {/* CTA */}
-            <div className="card-glass p-4" style={{ background: `linear-gradient(135deg, ${club.primaryColor}12, rgba(22,39,59,0.8))` }}>
-              <Zap size={18} className="text-volt mb-2" />
-              <p className="text-sm font-bold text-white mb-1">Request Player Report</p>
-              <p className="text-xs text-muted mb-3">Get full AI-verified profiles of players matching your squad needs.</p>
-              <Link to="/auth/register" className="btn-volt w-full py-2 text-xs font-bold rounded-xl inline-flex items-center justify-center">Get Started</Link>
+            <div className="rounded-2xl p-4 relative overflow-hidden"
+              style={{ background: `linear-gradient(135deg, ${club.primaryColor}12, rgba(13,31,51,0.95))`, border: `1px solid ${club.primaryColor}20` }}>
+              <div className="absolute -top-6 -right-6 w-20 h-20 rounded-full pointer-events-none"
+                style={{ background: `radial-gradient(circle,${club.primaryColor}15,transparent 70%)` }} />
+              <Zap size={18} className="mb-2" style={{ color: '#B8F135' }} />
+              <p className="text-sm font-black text-white mb-1">Request Player Report</p>
+              <p className="text-xs mb-3 leading-relaxed" style={{ color: 'rgba(255,255,255,0.4)' }}>Get full AI-verified profiles of players matching your squad needs.</p>
+              <Link to="/auth/register"
+                className="w-full py-2 text-xs font-black rounded-xl inline-flex items-center justify-center transition-all hover:scale-[1.02]"
+                style={{ background: 'linear-gradient(135deg,#B8F135,#8fd600)', color: '#0C1A2B', boxShadow: '0 4px 12px rgba(184,241,53,0.3)' }}>
+                Get Started
+              </Link>
             </div>
           </div>
         </div>
