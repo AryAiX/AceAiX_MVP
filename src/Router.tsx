@@ -22,6 +22,7 @@ import AboutPage from './pages/AboutPage';
 
 // Auth
 import LoginPage from './pages/auth/LoginPage';
+import ClubLoginPage from './pages/auth/ClubLoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
 import OnboardingPage from './pages/auth/OnboardingPage';
 
@@ -118,6 +119,7 @@ export default function Router() {
 
         {/* Auth */}
         <Route path="/auth/login" element={<LoginPage />} />
+        <Route path="/auth/club-login" element={<ClubLoginPage />} />
         <Route path="/auth/register" element={<RegisterPage />} />
         <Route path="/auth/onboarding" element={<OnboardingPage />} />
 

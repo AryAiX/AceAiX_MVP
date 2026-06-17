@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import {
   Mail, Lock, Eye, EyeOff, ArrowRight,
   ShieldCheck, TrendingUp, Users, Star, ChevronRight,
-  Trophy, Stethoscope, Check,
+  Trophy, Stethoscope, Check, Building2, ExternalLink,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
@@ -18,16 +18,18 @@ const LOGIN_GROUPS = [
     icon: Trophy,
     subLabels: null as null | string[],
     demo: { label: 'Athlete', email: 'athlete@aceaix.demo', password: 'demo123456' },
+    clubRedirect: false,
   },
   {
     id: 'scout' as const,
-    label: 'Scout / Coach / Club',
-    desc: 'Recruiter & talent management tools',
+    label: 'Scout / Coach',
+    desc: 'Recruiter & talent scouting tools',
     color: '#2F80ED',
     textDark: false,
     icon: Users,
-    subLabels: ['Scout / Recruiter', 'Coach', 'Club / Team'] as string[],
+    subLabels: ['Scout / Recruiter', 'Coach'] as string[],
     demo: { label: 'Scout', email: 'scout@aceaix.demo', password: 'demo123456' },
+    clubRedirect: false,
   },
   {
     id: 'medical' as const,
@@ -38,6 +40,7 @@ const LOGIN_GROUPS = [
     icon: Stethoscope,
     subLabels: null as null | string[],
     demo: null,
+    clubRedirect: false,
   },
   {
     id: 'admin' as const,
@@ -48,6 +51,7 @@ const LOGIN_GROUPS = [
     icon: ShieldCheck,
     demo: { label: 'Admin', email: 'admin@aceaix.demo', password: 'demo123456' },
     subLabels: null as null | string[],
+    clubRedirect: false,
   },
 ] as const;
 
@@ -56,7 +60,8 @@ type GroupId = typeof LOGIN_GROUPS[number]['id'];
 const ALL_DEMOS = [
   { label: 'Athlete', email: 'athlete@aceaix.demo', password: 'demo123456', color: '#B8F135' },
   { label: 'Scout',   email: 'scout@aceaix.demo',   password: 'demo123456', color: '#2F80ED' },
-  { label: 'Admin',   email: 'admin@aceaix.demo',   password: 'demo123456', color: '#EF5350' },
+  { label: 'Club',    email: 'club@aceaix.demo',     password: 'demo123456', color: '#F5A623' },
+  { label: 'Admin',   email: 'admin@aceaix.demo',    password: 'demo123456', color: '#EF5350' },
 ];
 
 const TRUST_STATS = [
@@ -104,7 +109,8 @@ export default function LoginPage() {
     if (!redirecting || !user || !profile) return;
     const role = profile.role;
     if (role === 'athlete') navigate('/athlete/dashboard');
-    else if (role === 'scout' || role === 'club') navigate('/recruiter/dashboard');
+    else if (role === 'scout') navigate('/recruiter/dashboard');
+    else if (role === 'club') navigate('/club/dashboard');
     else if (role === 'medical_partner') navigate('/partner/dashboard');
     else if (role === 'admin') navigate('/admin/dashboard');
     else navigate('/athlete/dashboard');
@@ -271,6 +277,29 @@ export default function LoginPage() {
                     </button>
                   );
                 })}
+
+                {/* Club portal — separate dedicated login */}
+                <Link to="/auth/club-login"
+                  className="w-full flex items-center gap-4 px-4 py-4 rounded-2xl text-left transition-all duration-200 group"
+                  style={{ background: 'rgba(245,166,35,0.04)', border: '1px solid rgba(245,166,35,0.18)' }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(245,166,35,0.09)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(245,166,35,0.35)'; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(245,166,35,0.04)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(245,166,35,0.18)'; }}>
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                    style={{ background: 'rgba(245,166,35,0.14)', border: '1px solid rgba(245,166,35,0.25)' }}>
+                    <Building2 size={17} style={{ color: '#F5A623' }} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <p className="text-sm font-bold text-white">Club / Team</p>
+                      <span className="text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full"
+                        style={{ background: 'rgba(245,166,35,0.14)', color: '#F5A623', border: '1px solid rgba(245,166,35,0.28)' }}>
+                        Dedicated Portal
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-white/35 mt-0.5">Squad management & talent acquisition</p>
+                  </div>
+                  <ExternalLink size={14} style={{ color: 'rgba(245,166,35,0.5)', flexShrink: 0 }} />
+                </Link>
               </div>
 
               <button onClick={() => setRoleStep(false)}
@@ -371,7 +400,7 @@ export default function LoginPage() {
               {/* demo accounts */}
               <div className="mb-5">
                 <p className="text-[10px] text-white/20 text-center mb-2.5 uppercase tracking-wider font-semibold">Quick demo access</p>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-4 gap-2">
                   {ALL_DEMOS.map(acc => (
                     <button key={acc.email}
                       onClick={() => { setEmail(acc.email); setPassword(acc.password); setError(''); }}
