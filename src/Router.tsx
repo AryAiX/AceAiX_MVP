@@ -59,7 +59,14 @@ import ClubSettings from './pages/club/SettingsPage';
 
 // Partner
 import PartnerDashboard from './pages/partner/DashboardPage';
-import PartnerRequests from './pages/partner/RequestsPage';
+import PartnerInbox from './pages/partner/VerificationInboxPage';
+import PartnerRequestDetail from './pages/partner/RequestDetailPage';
+import PartnerRecords from './pages/partner/AthletesPage';
+import PartnerClearances from './pages/partner/ClearancesPage';
+import PartnerInjuries from './pages/partner/InjuriesPage';
+import PartnerBookings from './pages/partner/BookingsPage';
+import PartnerAnalytics from './pages/partner/AnalyticsPage';
+import PartnerClinic from './pages/partner/ClinicProfilePage';
 
 // Admin
 import AdminDashboard from './pages/admin/DashboardPage';
@@ -188,8 +195,14 @@ export default function Router() {
         <Route path="/partner" element={<RequireAuth allowedRoles={['medical_partner']}><AppLayout /></RequireAuth>}>
           <Route index element={<Navigate to="dashboard" replace />} />
           <Route path="dashboard" element={<PartnerDashboard />} />
-          <Route path="feed" element={<FeedPage hideHeader />} />
-          <Route path="requests" element={<PartnerRequests />} />
+          <Route path="inbox" element={<PartnerInbox />} />
+          <Route path="inbox/:id" element={<PartnerRequestDetail />} />
+          <Route path="records" element={<PartnerRecords />} />
+          <Route path="clearances" element={<PartnerClearances />} />
+          <Route path="injuries" element={<PartnerInjuries />} />
+          <Route path="bookings" element={<PartnerBookings />} />
+          <Route path="analytics" element={<PartnerAnalytics />} />
+          <Route path="clinic" element={<PartnerClinic />} />
           <Route path="settings" element={<AthleteSettings />} />
         </Route>
 

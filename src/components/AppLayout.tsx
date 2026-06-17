@@ -6,6 +6,7 @@ import {
   LogOut, ChevronDown, ChevronLeft, ChevronRight,
   Users, ShieldCheck, BarChart3, FileText,
   Briefcase, Sun, Moon, ExternalLink, Home, Rss, Compass,
+  Inbox, ClipboardList, Award, Bone, CalendarDays, Building2,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -55,10 +56,15 @@ function getNav(role: string | null, basePath: string): NavItem[] {
     { label: 'Settings',   path: `${basePath}/settings`,   icon: <Settings size={17} />,       color: '#7C8DA6', glow: 'rgba(124,141,166,0.25)' },
   ];
   if (role === 'medical_partner') return [
-    { label: 'Feed',      path: `${basePath}/feed`,      icon: <Home size={17} />,     color: '#2F80ED', glow: 'rgba(47,128,237,0.35)' },
-    { label: 'Dashboard', path: `${basePath}/dashboard`, icon: <LayoutDashboard size={17} />, color: '#B8F135', glow: 'rgba(184,241,53,0.35)' },
-    { label: 'Requests',  path: `${basePath}/requests`,  icon: <FileText size={17} />, color: '#1FB57A', glow: 'rgba(31,181,122,0.35)' },
-    { label: 'Settings',  path: `${basePath}/settings`,  icon: <Settings size={17} />, color: '#7C8DA6', glow: 'rgba(124,141,166,0.25)' },
+    { label: 'Dashboard',    path: `${basePath}/dashboard`,   icon: <LayoutDashboard size={17} />, color: '#1FB57A', glow: 'rgba(31,181,122,0.35)' },
+    { label: 'Inbox',        path: `${basePath}/inbox`,       icon: <Inbox size={17} />,           color: '#1FB57A', glow: 'rgba(31,181,122,0.35)', badge: 5 },
+    { label: 'Records',      path: `${basePath}/records`,     icon: <ClipboardList size={17} />,   color: '#2F80ED', glow: 'rgba(47,128,237,0.35)' },
+    { label: 'Clearances',   path: `${basePath}/clearances`,  icon: <Award size={17} />,           color: '#1FB57A', glow: 'rgba(31,181,122,0.35)' },
+    { label: 'Injuries',     path: `${basePath}/injuries`,    icon: <Bone size={17} />,            color: '#F5A623', glow: 'rgba(245,166,35,0.35)' },
+    { label: 'Bookings',     path: `${basePath}/bookings`,    icon: <CalendarDays size={17} />,    color: '#2F80ED', glow: 'rgba(47,128,237,0.35)' },
+    { label: 'Analytics',    path: `${basePath}/analytics`,   icon: <BarChart3 size={17} />,       color: '#2F80ED', glow: 'rgba(47,128,237,0.35)' },
+    { label: 'Clinic',       path: `${basePath}/clinic`,      icon: <Building2 size={17} />,       color: '#7C8DA6', glow: 'rgba(124,141,166,0.25)' },
+    { label: 'Settings',     path: `${basePath}/settings`,    icon: <Settings size={17} />,        color: '#7C8DA6', glow: 'rgba(124,141,166,0.25)' },
   ];
   if (role === 'admin') return [
     { label: 'Overview',     path: `${basePath}/dashboard`,    icon: <LayoutDashboard size={17} />, color: '#B8F135', glow: 'rgba(184,241,53,0.35)' },
