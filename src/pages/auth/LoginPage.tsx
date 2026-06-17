@@ -39,7 +39,7 @@ const LOGIN_GROUPS = [
     textDark: false,
     icon: Stethoscope,
     subLabels: null as null | string[],
-    demo: null,
+    demo: { label: 'Medical', email: 'medical@aceaix.demo', password: 'demo123456' },
     clubRedirect: false,
   },
   {
@@ -61,6 +61,7 @@ const ALL_DEMOS = [
   { label: 'Athlete', email: 'athlete@aceaix.demo', password: 'demo123456', color: '#B8F135' },
   { label: 'Scout',   email: 'scout@aceaix.demo',   password: 'demo123456', color: '#2F80ED' },
   { label: 'Club',    email: 'club@aceaix.demo',     password: 'demo123456', color: '#F5A623' },
+  { label: 'Medical', email: 'medical@aceaix.demo',  password: 'demo123456', color: '#1FB57A' },
   { label: 'Admin',   email: 'admin@aceaix.demo',    password: 'demo123456', color: '#EF5350' },
 ];
 
@@ -400,7 +401,7 @@ export default function LoginPage() {
               {/* demo accounts */}
               <div className="mb-5">
                 <p className="text-[10px] text-white/20 text-center mb-2.5 uppercase tracking-wider font-semibold">Quick demo access</p>
-                <div className="grid grid-cols-4 gap-2">
+                <div className="grid grid-cols-5 gap-2">
                   {ALL_DEMOS.map(acc => (
                     <button key={acc.email}
                       onClick={() => { setEmail(acc.email); setPassword(acc.password); setError(''); }}

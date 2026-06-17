@@ -8,10 +8,11 @@ const corsHeaders = {
 };
 
 const DEMO_USERS = [
-  { email: "athlete@aceaix.demo", password: "demo123456", full_name: "Demo Athlete", role: "athlete" },
-  { email: "scout@aceaix.demo",   password: "demo123456", full_name: "Demo Scout",   role: "scout"   },
-  { email: "club@aceaix.demo",    password: "demo123456", full_name: "Demo Club",    role: "club"    },
-  { email: "admin@aceaix.demo",   password: "demo123456", full_name: "Demo Admin",   role: "admin"   },
+  { email: "athlete@aceaix.demo",  password: "demo123456", full_name: "Demo Athlete",  role: "athlete"         },
+  { email: "scout@aceaix.demo",    password: "demo123456", full_name: "Demo Scout",    role: "scout"           },
+  { email: "club@aceaix.demo",     password: "demo123456", full_name: "Demo Club",     role: "club"            },
+  { email: "medical@aceaix.demo",  password: "demo123456", full_name: "Demo Medical",  role: "medical_partner" },
+  { email: "admin@aceaix.demo",    password: "demo123456", full_name: "Demo Admin",    role: "admin"           },
 ];
 
 Deno.serve(async (req: Request) => {
