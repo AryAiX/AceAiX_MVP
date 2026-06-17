@@ -10,6 +10,7 @@ const corsHeaders = {
 const DEMO_USERS = [
   { email: "athlete@aceaix.demo", password: "demo123456", full_name: "Demo Athlete", role: "athlete" },
   { email: "scout@aceaix.demo",   password: "demo123456", full_name: "Demo Scout",   role: "scout"   },
+  { email: "club@aceaix.demo",    password: "demo123456", full_name: "Demo Club",    role: "club"    },
   { email: "admin@aceaix.demo",   password: "demo123456", full_name: "Demo Admin",   role: "admin"   },
 ];
 
