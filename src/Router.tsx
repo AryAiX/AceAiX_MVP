@@ -47,6 +47,15 @@ import RecruiterAnalytics from './pages/recruiter/AnalyticsPage';
 import RecruiterMessages from './pages/recruiter/MessagesPage';
 import RecruiterSettings from './pages/recruiter/SettingsPage';
 
+// Club
+import ClubDashboard from './pages/club/DashboardPage';
+import ClubSquad from './pages/club/SquadPage';
+import ClubTrials from './pages/club/TrialsPage';
+import ClubSearch from './pages/club/SearchPage';
+import ClubAnalytics from './pages/club/AnalyticsPage';
+import ClubMessages from './pages/club/MessagesPage';
+import ClubSettings from './pages/club/SettingsPage';
+
 // Partner
 import PartnerDashboard from './pages/partner/DashboardPage';
 import PartnerRequests from './pages/partner/RequestsPage';
@@ -60,7 +69,8 @@ import AdminAnalytics from './pages/admin/AnalyticsPage';
 function RoleRedirect() {
   const { role } = useAuth();
   if (role === 'athlete') return <Navigate to="/athlete/dashboard" replace />;
-  if (role === 'scout' || role === 'club') return <Navigate to="/recruiter/dashboard" replace />;
+  if (role === 'scout') return <Navigate to="/recruiter/dashboard" replace />;
+  if (role === 'club') return <Navigate to="/club/dashboard" replace />;
   if (role === 'medical_partner') return <Navigate to="/partner/dashboard" replace />;
   if (role === 'admin') return <Navigate to="/admin/dashboard" replace />;
   return <Navigate to="/" replace />;
@@ -137,8 +147,8 @@ export default function Router() {
           <Route path="coaches/:id" element={<CoachPublicProfilePage hideHeader />} />
         </Route>
 
-        {/* Recruiter routes */}
-        <Route path="/recruiter" element={<RequireAuth allowedRoles={['scout', 'club']}><AppLayout /></RequireAuth>}>
+        {/* Recruiter routes (scout only) */}
+        <Route path="/recruiter" element={<RequireAuth allowedRoles={['scout']}><AppLayout /></RequireAuth>}>
           <Route index element={<Navigate to="dashboard" replace />} />
           <Route path="dashboard" element={<RecruiterDashboard />} />
           <Route path="feed" element={<FeedPage hideHeader />} />
@@ -149,6 +159,23 @@ export default function Router() {
           <Route path="messages" element={<RecruiterMessages />} />
           <Route path="settings" element={<RecruiterSettings />} />
           {/* Profile viewing within recruiter portal */}
+          <Route path="athletes/:id" element={<AthletePublicProfilePage hideHeader />} />
+          <Route path="clubs/:id" element={<ClubPublicProfilePage hideHeader />} />
+          <Route path="scouts/:id" element={<ScoutPublicProfilePage hideHeader />} />
+          <Route path="coaches/:id" element={<CoachPublicProfilePage hideHeader />} />
+        </Route>
+
+        {/* Club routes */}
+        <Route path="/club" element={<RequireAuth allowedRoles={['club']}><AppLayout /></RequireAuth>}>
+          <Route index element={<Navigate to="dashboard" replace />} />
+          <Route path="dashboard" element={<ClubDashboard />} />
+          <Route path="feed" element={<FeedPage hideHeader />} />
+          <Route path="squad" element={<ClubSquad />} />
+          <Route path="trials" element={<ClubTrials />} />
+          <Route path="search" element={<ClubSearch />} />
+          <Route path="analytics" element={<ClubAnalytics />} />
+          <Route path="messages" element={<ClubMessages />} />
+          <Route path="settings" element={<ClubSettings />} />
           <Route path="athletes/:id" element={<AthletePublicProfilePage hideHeader />} />
           <Route path="clubs/:id" element={<ClubPublicProfilePage hideHeader />} />
           <Route path="scouts/:id" element={<ScoutPublicProfilePage hideHeader />} />

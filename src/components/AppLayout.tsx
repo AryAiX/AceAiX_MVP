@@ -35,13 +35,23 @@ function getNav(role: string | null, basePath: string): NavItem[] {
     { label: 'Messages',      path: `${basePath}/messages`,      icon: <MessageSquare size={17} />, color: '#E056A0', glow: 'rgba(224,86,160,0.35)', badge: 3 },
     { label: 'Settings',      path: `${basePath}/settings`,      icon: <Settings size={17} />,      color: '#7C8DA6', glow: 'rgba(124,141,166,0.25)' },
   ];
-  if (role === 'scout' || role === 'club') return [
+  if (role === 'scout') return [
     { label: 'Feed',       path: `${basePath}/feed`,       icon: <Home size={17} />,          color: '#2F80ED', glow: 'rgba(47,128,237,0.35)' },
     { label: 'Dashboard',  path: `${basePath}/dashboard`,  icon: <LayoutDashboard size={17} />, color: '#B8F135', glow: 'rgba(184,241,53,0.35)' },
     { label: 'Search',     path: `${basePath}/search`,     icon: <Search size={17} />,         color: '#F5A623', glow: 'rgba(245,166,35,0.35)' },
     { label: 'Watchlists', path: `${basePath}/watchlists`, icon: <Users size={17} />,          color: '#1FB57A', glow: 'rgba(31,181,122,0.35)' },
     { label: 'Analytics',  path: `${basePath}/analytics`,  icon: <BarChart3 size={17} />,      color: '#2F80ED', glow: 'rgba(47,128,237,0.35)' },
     { label: 'Messages',   path: `${basePath}/messages`,   icon: <MessageSquare size={17} />,  color: '#E056A0', glow: 'rgba(224,86,160,0.35)', badge: 3 },
+    { label: 'Settings',   path: `${basePath}/settings`,   icon: <Settings size={17} />,       color: '#7C8DA6', glow: 'rgba(124,141,166,0.25)' },
+  ];
+  if (role === 'club') return [
+    { label: 'Feed',       path: `${basePath}/feed`,       icon: <Home size={17} />,          color: '#F5A623', glow: 'rgba(245,166,35,0.35)' },
+    { label: 'Dashboard',  path: `${basePath}/dashboard`,  icon: <LayoutDashboard size={17} />, color: '#F5A623', glow: 'rgba(245,166,35,0.35)' },
+    { label: 'Squad',      path: `${basePath}/squad`,      icon: <Users size={17} />,          color: '#2F80ED', glow: 'rgba(47,128,237,0.35)' },
+    { label: 'Trials',     path: `${basePath}/trials`,     icon: <Briefcase size={17} />,      color: '#B8F135', glow: 'rgba(184,241,53,0.35)' },
+    { label: 'Find Players', path: `${basePath}/search`,   icon: <Search size={17} />,         color: '#1FB57A', glow: 'rgba(31,181,122,0.35)' },
+    { label: 'Analytics',  path: `${basePath}/analytics`,  icon: <BarChart3 size={17} />,      color: '#EF5350', glow: 'rgba(239,83,80,0.35)' },
+    { label: 'Messages',   path: `${basePath}/messages`,   icon: <MessageSquare size={17} />,  color: '#E056A0', glow: 'rgba(224,86,160,0.35)', badge: 5 },
     { label: 'Settings',   path: `${basePath}/settings`,   icon: <Settings size={17} />,       color: '#7C8DA6', glow: 'rgba(124,141,166,0.25)' },
   ];
   if (role === 'medical_partner') return [
@@ -62,7 +72,8 @@ function getNav(role: string | null, basePath: string): NavItem[] {
 
 function getBasePath(role: string | null) {
   if (role === 'athlete') return '/athlete';
-  if (role === 'scout' || role === 'club') return '/recruiter';
+  if (role === 'scout') return '/recruiter';
+  if (role === 'club') return '/club';
   if (role === 'medical_partner') return '/partner';
   if (role === 'admin') return '/admin';
   return '/athlete';
@@ -262,7 +273,9 @@ export default function AppLayout() {
             <div
               className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider"
               style={{
-                background: role === 'scout' || role === 'club'
+                background: role === 'club'
+                  ? 'linear-gradient(90deg,rgba(245,166,35,0.15),rgba(245,166,35,0.05))'
+                  : role === 'scout'
                   ? 'linear-gradient(90deg,rgba(245,166,35,0.15),rgba(245,166,35,0.05))'
                   : 'linear-gradient(90deg,rgba(47,128,237,0.15),rgba(47,128,237,0.05))',
                 border: `1px solid ${role === 'scout' || role === 'club' ? 'rgba(245,166,35,0.30)' : 'rgba(47,128,237,0.30)'}`,
@@ -298,7 +311,7 @@ export default function AppLayout() {
               <NavLink
                 item={{
                   label: 'View Public Profile',
-                  path: role === 'athlete' ? `/athletes/${user?.id ?? 'a1'}` : `/scouts/${user?.id ?? 's1'}`,
+                  path: role === 'athlete' ? `/athletes/${user?.id ?? 'a1'}` : role === 'club' ? `/clubs/${user?.id ?? 'alwasl'}` : `/scouts/${user?.id ?? 's1'}`,
                   icon: <User size={17} />,
                   color: '#2F80ED',
                   glow: 'rgba(47,128,237,0.30)',
@@ -634,7 +647,7 @@ export default function AppLayout() {
                     </Link>
                     {(role === 'athlete' || role === 'scout' || role === 'club') && user?.id && (
                       <Link
-                        to={role === 'athlete' ? `/athletes/${user.id}` : `/scouts/${user.id}`}
+                        to={role === 'athlete' ? `/athletes/${user.id}` : role === 'club' ? `/clubs/${user.id}` : `/scouts/${user.id}`}
                         onClick={() => setUserOpen(false)}
                         className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm transition-colors hover:bg-white/[0.06]"
                         style={{ color: 'rgba(255,255,255,0.55)' }}>
