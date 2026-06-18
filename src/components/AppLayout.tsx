@@ -7,7 +7,7 @@ import {
   Users, ShieldCheck, BarChart3, FileText,
   Briefcase, Sun, Moon, ExternalLink, Home, Rss, Compass,
   Inbox, ClipboardList, Award, Bone, CalendarDays, Building2,
-  CalendarCheck,
+  CalendarCheck, Trophy,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -73,6 +73,7 @@ function getNav(role: string | null, basePath: string): NavItem[] {
     { label: 'Users',        path: `${basePath}/users`,        icon: <Users size={17} />,          color: '#2F80ED', glow: 'rgba(47,128,237,0.35)' },
     { label: 'Verification', path: `${basePath}/verification`, icon: <ShieldCheck size={17} />,    color: '#1FB57A', glow: 'rgba(31,181,122,0.35)' },
     { label: 'Sports',       path: `${basePath}/sports`,       icon: <Activity size={17} />,       color: '#F5A623', glow: 'rgba(245,166,35,0.35)' },
+    { label: 'Leagues',      path: `${basePath}/leagues`,      icon: <Trophy size={17} />,         color: '#1FB57A', glow: 'rgba(31,181,122,0.35)' },
     { label: 'Analytics',    path: `${basePath}/analytics`,    icon: <BarChart3 size={17} />,      color: '#2F80ED', glow: 'rgba(47,128,237,0.35)' },
     { label: 'Settings',     path: `${basePath}/settings`,     icon: <Settings size={17} />,       color: '#7C8DA6', glow: 'rgba(124,141,166,0.25)' },
   ];
