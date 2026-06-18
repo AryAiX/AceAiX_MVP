@@ -57,6 +57,7 @@ import ClubSearch from './pages/club/SearchPage';
 import ClubAnalytics from './pages/club/AnalyticsPage';
 import ClubMessages from './pages/club/MessagesPage';
 import ClubSettings from './pages/club/SettingsPage';
+import ClubVerifyPerformance from './pages/club/VerifyPerformancePage';
 
 // Partner
 import PartnerDashboard from './pages/partner/DashboardPage';
@@ -187,6 +188,7 @@ export default function Router() {
           <Route path="analytics" element={<ClubAnalytics />} />
           <Route path="messages" element={<ClubMessages />} />
           <Route path="settings" element={<ClubSettings />} />
+          <Route path="verify-performance/:requestId" element={<ClubVerifyPerformance />} />
           <Route path="athletes/:id" element={<AthletePublicProfilePage hideHeader />} />
           <Route path="clubs/:id" element={<ClubPublicProfilePage hideHeader />} />
           <Route path="scouts/:id" element={<ScoutPublicProfilePage hideHeader />} />
