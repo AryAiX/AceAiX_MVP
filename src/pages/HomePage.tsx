@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, Zap, Users, BarChart3, Shield, ArrowRight, ChevronRight, LogIn } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import LiveScores from '../components/LiveScores';
 
 function useInView(options?: IntersectionObserverInit) {
   const ref = useRef<HTMLDivElement>(null);
@@ -579,6 +580,7 @@ export default function HomePage() {
     <div className="min-h-screen">
       <HeroSection />
       <TrustTicker />
+      <LiveScores />
       <PillarCards />
       <RisingTalentRow />
       <AiCareerCoachCta />
