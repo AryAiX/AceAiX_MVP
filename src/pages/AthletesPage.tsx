@@ -3,18 +3,18 @@ import PublicHeader from '../components/PublicHeader';
 import { ShieldCheck, Search, Filter, Star, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-const SPORTS = ['All', 'Football', 'Athletics', 'Basketball', 'Swimming', 'Tennis', 'Boxing'];
+const SPORTS = ['All', 'Football', 'Athletics', 'Basketball', 'Swimming', 'Tennis', 'Boxing', 'Rugby', 'Volleyball'];
 
 const ATHLETES = [
-  { id: 'a1', name: 'Khalid Al-Rashidi', position: 'Striker', sport: 'Football', club: 'Al Ain FC', nationality: 'UAE', age: 22, score: 9.2, verified: true, image: 'https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=400' },
-  { id: 'a1', name: 'Tariq Hassan', position: 'Midfielder', sport: 'Football', club: 'Al Hilal', nationality: 'Saudi Arabia', age: 24, score: 8.8, verified: true, image: 'https://images.pexels.com/photos/3764119/pexels-photo-3764119.jpeg?auto=compress&cs=tinysrgb&w=400' },
-  { id: 'a1', name: 'Noura Al-Mansoori', position: 'Sprinter', sport: 'Athletics', club: 'UAE National', nationality: 'UAE', age: 21, score: 9.0, verified: true, image: 'https://images.pexels.com/photos/1197132/pexels-photo-1197132.jpeg?auto=compress&cs=tinysrgb&w=400' },
-  { id: 'a1', name: 'Rayan Benali', position: 'Goalkeeper', sport: 'Football', club: 'Wydad AC', nationality: 'Morocco', age: 25, score: 8.7, verified: true, image: 'https://images.pexels.com/photos/5384445/pexels-photo-5384445.jpeg?auto=compress&cs=tinysrgb&w=400' },
-  { id: 'a1', name: 'Amir Karimi', position: 'Center-Back', sport: 'Football', club: 'Esteghlal FC', nationality: 'Iran', age: 26, score: 8.5, verified: true, image: 'https://images.pexels.com/photos/3764537/pexels-photo-3764537.jpeg?auto=compress&cs=tinysrgb&w=400' },
-  { id: 'a1', name: 'Yusuf Al-Kaabi', position: 'Winger', sport: 'Football', club: 'Shabab FC', nationality: 'UAE', age: 20, score: 8.3, verified: false, image: 'https://images.pexels.com/photos/1884574/pexels-photo-1884574.jpeg?auto=compress&cs=tinysrgb&w=400' },
-  { id: 'a1', name: 'Omar Al-Farsi', position: 'Left-Back', sport: 'Football', club: 'Al Wahda', nationality: 'UAE', age: 23, score: 8.1, verified: true, image: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400' },
-  { id: 'a1', name: 'Sara Al-Hashemi', position: 'Long Jump', sport: 'Athletics', club: 'Dubai Club', nationality: 'UAE', age: 20, score: 8.6, verified: true, image: 'https://images.pexels.com/photos/3823488/pexels-photo-3823488.jpeg?auto=compress&cs=tinysrgb&w=400' },
-  { id: 'a1', name: 'Faisal Mahmoud', position: 'Point Guard', sport: 'Basketball', club: 'Al Riyadi', nationality: 'Lebanon', age: 22, score: 8.4, verified: true, image: 'https://images.pexels.com/photos/1040880/pexels-photo-1040880.jpeg?auto=compress&cs=tinysrgb&w=400' },
+  { id: 'a1', name: 'Marcus Silva',      position: 'Midfielder',    sport: 'Football',   club: 'SC Internacional',    nationality: 'Brazil',      age: 22, score: 9.2, verified: true,  image: 'https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=400' },
+  { id: 'a2', name: 'Aisha Mensah',      position: '100m Sprinter', sport: 'Athletics',  club: 'Ghana Athletics',     nationality: 'Ghana',       age: 21, score: 9.0, verified: true,  image: 'https://images.pexels.com/photos/1197132/pexels-photo-1197132.jpeg?auto=compress&cs=tinysrgb&w=400' },
+  { id: 'a3', name: 'Lena Fischer',      position: 'Freestyle',     sport: 'Swimming',   club: 'SV Neptun Berlin',    nationality: 'Germany',     age: 23, score: 8.8, verified: true,  image: 'https://images.pexels.com/photos/3764119/pexels-photo-3764119.jpeg?auto=compress&cs=tinysrgb&w=400' },
+  { id: 'a4', name: 'Jin-ho Park',       position: 'Goalkeeper',    sport: 'Football',   club: 'Jeonbuk FC',          nationality: 'South Korea', age: 25, score: 8.7, verified: true,  image: 'https://images.pexels.com/photos/5384445/pexels-photo-5384445.jpeg?auto=compress&cs=tinysrgb&w=400' },
+  { id: 'a5', name: 'Priya Nair',        position: 'Point Guard',   sport: 'Basketball', club: 'Mumbai Warriors',     nationality: 'India',       age: 20, score: 8.6, verified: true,  image: 'https://images.pexels.com/photos/3823488/pexels-photo-3823488.jpeg?auto=compress&cs=tinysrgb&w=400' },
+  { id: 'a6', name: 'Carlos Mendoza',    position: 'Left-Back',     sport: 'Football',   club: 'Deportivo Cali',      nationality: 'Colombia',    age: 24, score: 8.5, verified: true,  image: 'https://images.pexels.com/photos/3764537/pexels-photo-3764537.jpeg?auto=compress&cs=tinysrgb&w=400' },
+  { id: 'a7', name: 'Sofia Kowalski',    position: 'Long Jump',     sport: 'Athletics',  club: 'Polish Athletics',    nationality: 'Poland',      age: 22, score: 8.4, verified: false, image: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400' },
+  { id: 'a8', name: 'Yuki Tanaka',       position: 'Wing Spiker',   sport: 'Volleyball', club: 'JT Thunders',         nationality: 'Japan',       age: 26, score: 8.3, verified: true,  image: 'https://images.pexels.com/photos/1884574/pexels-photo-1884574.jpeg?auto=compress&cs=tinysrgb&w=400' },
+  { id: 'a9', name: 'Kofi Asante',       position: 'Flanker',       sport: 'Rugby',      club: 'Stormers Academy',   nationality: 'South Africa', age: 23, score: 8.1, verified: true, image: 'https://images.pexels.com/photos/1040880/pexels-photo-1040880.jpeg?auto=compress&cs=tinysrgb&w=400' },
 ];
 
 export default function AthletesPage() {
@@ -36,7 +36,7 @@ export default function AthletesPage() {
         <div className="max-w-7xl mx-auto px-4 py-16 text-center">
           <p className="text-blue-400 text-sm font-semibold uppercase tracking-widest mb-3">Verified Talent</p>
           <h1 className="text-4xl lg:text-5xl font-bold text-white mb-4">Browse Top Athletes</h1>
-          <p className="text-slate-400 text-lg max-w-2xl mx-auto">Explore verified professional and semi-professional athletes across the MENA region. Every profile backed by AI scoring and certified medical records.</p>
+          <p className="text-slate-400 text-lg max-w-2xl mx-auto">Explore verified athletes from 190+ countries across 57+ sports — every profile backed by AI scoring and certified performance records.</p>
         </div>
       </div>
 

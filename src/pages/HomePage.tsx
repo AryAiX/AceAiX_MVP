@@ -21,15 +21,15 @@ function useInView(options?: IntersectionObserverInit) {
 const ATHLETE_CARDS = [
   {
     id: 'a1',
-    name: 'Khalid Al-Rashidi',
-    position: 'Striker',
+    name: 'Marcus Silva',
+    position: 'Midfielder',
     verified: true,
     score: 9.2,
     image: 'https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=400',
   },
   {
     id: 'a2',
-    name: 'Noura Al-Mansoori',
+    name: 'Aisha Mensah',
     position: 'Sprinter',
     verified: true,
     score: 9.0,
@@ -37,15 +37,15 @@ const ATHLETE_CARDS = [
   },
   {
     id: 'a3',
-    name: 'Tariq Hassan',
-    position: 'Midfielder',
+    name: 'Lena Fischer',
+    position: 'Swimmer',
     verified: true,
     score: 8.8,
     image: 'https://images.pexels.com/photos/773471/pexels-photo-773471.jpeg?auto=compress&cs=tinysrgb&w=400',
   },
   {
     id: 'a4',
-    name: 'Rayan Benali',
+    name: 'Jin-ho Park',
     position: 'Goalkeeper',
     verified: true,
     score: 8.7,
@@ -70,16 +70,17 @@ const PILLAR_CARDS = [
   },
   {
     icon: Users,
-    title: 'Pro Athlete Network',
-    desc: 'Connect with scouts, coaches, and clubs across the UAE, Saudi Arabia, Qatar, and beyond.',
+    title: 'Global Athlete Network',
+    desc: 'Connect with scouts, coaches, and clubs from 190+ countries — from grassroots leagues to professional academies.',
     color: '#2F80ED',
     bg: 'rgba(47,128,237,0.08)',
   },
 ];
 
 const TRUST_CLUBS = [
-  'Al Wasl FC', 'Al Ain FC', 'Shabab Al Ahli', 'UAE FA', 'Qatar FA',
-  'Al Nassr', 'Al Hilal', 'Al Ittihad', 'Riyadh City FC', 'Kuwait SC',
+  'FC Barcelona Academy', 'Ajax Youth', 'USA Swimming', 'World Athletics',
+  'British Athletics', 'Real Madrid CF', 'Bayern Munich', 'FIFA',
+  'World Rugby', 'FIVB', 'BWF', 'World Aquatics',
 ];
 
 /* ─── Hero Section ───────────────────────────────────────────────────────── */
@@ -149,7 +150,7 @@ function HeroSection() {
           className="text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed"
           style={{ color: 'rgba(255,255,255,0.72)' }}
         >
-          The intelligent platform connecting athletes, clubs, and scouts across the UAE &amp; GCC.
+          The intelligent platform connecting athletes, clubs, and scouts across every sport and every country.
         </p>
 
         {/* Search Bar */}
@@ -213,9 +214,9 @@ function HeroSection() {
         {/* Stats Row */}
         <div className="flex flex-wrap justify-center gap-6 md:gap-10">
           {[
-            { value: '1,200+', label: 'Verified Athletes' },
-            { value: '340+',   label: 'Scouts & Recruiters' },
-            { value: '98%',    label: 'AI Score Accuracy' },
+            { value: '12,000+', label: 'Verified Athletes' },
+            { value: '190+',    label: 'Countries' },
+            { value: '57+',     label: 'Sports' },
           ].map((stat, i) => (
             <div key={i} className="text-center">
               <div
@@ -247,7 +248,7 @@ function TrustTicker() {
   return (
     <section className="py-5 overflow-hidden border-y border-rim" style={{ background: 'rgba(10,20,38,0.95)' }}>
       <p className="text-[11px] font-bold text-slate uppercase tracking-widest mb-3 text-center">
-        Trusted by clubs and federations across the GCC
+        Trusted by clubs, federations, and academies worldwide
       </p>
       <div className="overflow-hidden">
         <div className="flex gap-6 whitespace-nowrap" style={{ animation: 'marquee 30s linear infinite' }}>
@@ -506,7 +507,7 @@ function CtaBanner() {
           Ready to get discovered?
         </h2>
         <p className="text-white/60 text-lg mb-10">
-          Join over 1,200 athletes already using AceAiX to reach scouts and clubs across the GCC.
+        Join over 12,000 athletes worldwide already using AceAiX to reach scouts and clubs across every sport.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Link
@@ -540,7 +541,7 @@ function Footer() {
             <img src="/AceAiX_logo_transparent2%20copy.png" alt="AceAiX" style={{ height: 42, width: 'auto', objectFit: 'contain', filter: 'drop-shadow(0 0 6px rgba(47,128,237,0.4))' }} />
           </div>
           <p className="ml-2 text-sm text-white/40 border-l border-white/10 pl-4 hidden md:block">
-            The intelligent platform for athlete talent discovery across the UAE &amp; GCC.
+            The intelligent platform for athlete talent discovery — any sport, any country, any level.
           </p>
         </div>
 
