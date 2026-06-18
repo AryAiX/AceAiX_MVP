@@ -7,7 +7,8 @@ import {
   Users, ShieldCheck, BarChart3, FileText,
   Briefcase, Sun, Moon, ExternalLink, Home, Rss, Compass,
   Inbox, ClipboardList, Award, Bone, CalendarDays, Building2,
-  CalendarCheck, Trophy, Layers,
+  CalendarCheck, Trophy, Layers, CreditCard, DollarSign, Lock, Sliders,
+  Flag,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -69,14 +70,18 @@ function getNav(role: string | null, basePath: string): NavItem[] {
     { label: 'Settings',     path: `${basePath}/settings`,    icon: <Settings size={17} />,        color: '#7C8DA6', glow: 'rgba(124,141,166,0.25)' },
   ];
   if (role === 'admin') return [
-    { label: 'Overview',     path: `${basePath}/dashboard`,    icon: <LayoutDashboard size={17} />, color: '#B8F135', glow: 'rgba(184,241,53,0.35)' },
-    { label: 'Users',        path: `${basePath}/users`,        icon: <Users size={17} />,          color: '#2F80ED', glow: 'rgba(47,128,237,0.35)' },
-    { label: 'Verification', path: `${basePath}/verification`, icon: <ShieldCheck size={17} />,    color: '#1FB57A', glow: 'rgba(31,181,122,0.35)' },
-    { label: 'Sports',       path: `${basePath}/sports`,       icon: <Activity size={17} />,       color: '#F5A623', glow: 'rgba(245,166,35,0.35)' },
-    { label: 'Leagues',      path: `${basePath}/leagues`,      icon: <Trophy size={17} />,         color: '#1FB57A', glow: 'rgba(31,181,122,0.35)' },
-    { label: 'Competitions', path: `${basePath}/competitions`, icon: <Layers size={17} />,         color: '#B8F135', glow: 'rgba(184,241,53,0.35)' },
-    { label: 'Analytics',    path: `${basePath}/analytics`,    icon: <BarChart3 size={17} />,      color: '#2F80ED', glow: 'rgba(47,128,237,0.35)' },
-    { label: 'Settings',     path: `${basePath}/settings`,     icon: <Settings size={17} />,       color: '#7C8DA6', glow: 'rgba(124,141,166,0.25)' },
+    { label: 'Overview',       path: `${basePath}/dashboard`,      icon: <LayoutDashboard size={17} />, color: '#B8F135', glow: 'rgba(184,241,53,0.35)'  },
+    { label: 'Users',          path: `${basePath}/users`,          icon: <Users size={17} />,           color: '#2F80ED', glow: 'rgba(47,128,237,0.35)'  },
+    { label: 'Verification',   path: `${basePath}/verification`,   icon: <ShieldCheck size={17} />,     color: '#1FB57A', glow: 'rgba(31,181,122,0.35)'  },
+    { label: 'Sports',         path: `${basePath}/sports`,         icon: <Activity size={17} />,        color: '#F5A623', glow: 'rgba(245,166,35,0.35)'  },
+    { label: 'Competitions',   path: `${basePath}/competitions`,   icon: <Layers size={17} />,          color: '#B8F135', glow: 'rgba(184,241,53,0.35)'  },
+    { label: 'Content',        path: `${basePath}/content`,        icon: <FileText size={17} />,        color: '#2F80ED', glow: 'rgba(47,128,237,0.35)'  },
+    { label: 'AI',             path: `${basePath}/ai`,             icon: <Bot size={17} />,             color: '#B8F135', glow: 'rgba(184,241,53,0.35)'  },
+    { label: 'Moderation',     path: `${basePath}/moderation`,     icon: <Flag size={17} />,            color: '#EF5350', glow: 'rgba(239,83,80,0.35)'   },
+    { label: 'Subscriptions',  path: `${basePath}/subscriptions`,  icon: <CreditCard size={17} />,      color: '#1FB57A', glow: 'rgba(31,181,122,0.35)'  },
+    { label: 'Finance',        path: `${basePath}/finance`,        icon: <DollarSign size={17} />,      color: '#B8F135', glow: 'rgba(184,241,53,0.35)'  },
+    { label: 'Security',       path: `${basePath}/security`,       icon: <Lock size={17} />,            color: '#F5A623', glow: 'rgba(245,166,35,0.35)'  },
+    { label: 'System Config',  path: `${basePath}/system`,         icon: <Sliders size={17} />,         color: '#9DB0C6', glow: 'rgba(157,176,198,0.25)' },
   ];
   return [];
 }

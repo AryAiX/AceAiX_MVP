@@ -78,6 +78,13 @@ import AdminAnalytics from './pages/admin/AnalyticsPage';
 import AdminSports from './pages/admin/SportsPage';
 import AdminLeagues from './pages/admin/LeaguesPage';
 import AdminCompetitions from './pages/admin/CompetitionsPage';
+import AdminContent from './pages/admin/ContentPage';
+import AdminAi from './pages/admin/AiManagementPage';
+import AdminModeration from './pages/admin/ModerationPage';
+import AdminSubscriptions from './pages/admin/SubscriptionsPage';
+import AdminFinance from './pages/admin/FinancePage';
+import AdminSecurity from './pages/admin/SecurityPage';
+import AdminSystem from './pages/admin/SystemConfigPage';
 
 function RoleRedirect() {
   const { role } = useAuth();
@@ -222,6 +229,13 @@ export default function Router() {
           <Route path="sports" element={<AdminSports />} />
           <Route path="leagues" element={<AdminLeagues />} />
           <Route path="competitions" element={<AdminCompetitions />} />
+          <Route path="content" element={<AdminContent />} />
+          <Route path="ai" element={<AdminAi />} />
+          <Route path="moderation" element={<AdminModeration />} />
+          <Route path="subscriptions" element={<AdminSubscriptions />} />
+          <Route path="finance" element={<AdminFinance />} />
+          <Route path="security" element={<AdminSecurity />} />
+          <Route path="system" element={<AdminSystem />} />
           <Route path="analytics" element={<AdminAnalytics />} />
           <Route path="settings" element={<AthleteSettings />} />
         </Route>
