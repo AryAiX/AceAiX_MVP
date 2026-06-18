@@ -75,6 +75,7 @@ import AdminDashboard from './pages/admin/DashboardPage';
 import AdminUsers from './pages/admin/UsersPage';
 import AdminVerification from './pages/admin/VerificationPage';
 import AdminAnalytics from './pages/admin/AnalyticsPage';
+import AdminSports from './pages/admin/SportsPage';
 
 function RoleRedirect() {
   const { role } = useAuth();
@@ -216,6 +217,7 @@ export default function Router() {
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="users" element={<AdminUsers />} />
           <Route path="verification" element={<AdminVerification />} />
+          <Route path="sports" element={<AdminSports />} />
           <Route path="analytics" element={<AdminAnalytics />} />
           <Route path="settings" element={<AthleteSettings />} />
         </Route>

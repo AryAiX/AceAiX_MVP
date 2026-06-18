@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
   X, ChevronRight, ChevronLeft, Search, Check, Loader2,
-  Swords, Trophy, MapPin, User, Clock, ShieldAlert,
+  Swords, MapPin, Clock, ShieldAlert,
 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../context/AuthContext';
+import { useSports } from '../../hooks/useGlobalData';
+import { TIER_COLORS } from '../../context/LocaleContext';
 
 // ── Types ─────────────────────────────────────────────────────
 interface Competition {
@@ -26,6 +28,7 @@ interface Fixture {
 
 interface FormState {
   sport: string;
+  sportType: 'team' | 'individual';
   competitionId: string;
   competitionName: string;
   fixtureId: string | null;
@@ -36,16 +39,11 @@ interface FormState {
   minutesPlayed: number;
   isStarter: boolean;
   jerseyNumber: string;
+  // individual sport fields
+  discipline: string;
+  performanceValue: string;
+  performanceUnit: string;
 }
-
-// ── Constants ─────────────────────────────────────────────────
-const SPORTS = [
-  'Football', 'Basketball', 'Tennis', 'Athletics', 'Swimming',
-  'Cricket', 'Rugby', 'Volleyball', 'Boxing', 'Cycling',
-  'Golf', 'Polo', 'Chess', 'Wrestling', 'Martial Arts',
-  'Handball', 'Baseball', 'American Football', 'Ice Hockey',
-  'Field Hockey', 'Badminton', 'Table Tennis', 'Rowing', 'Sailing',
-];
 
 const POSITIONS: Record<string, string[]> = {
   Football: ['Goalkeeper', 'Right Back', 'Left Back', 'Centre Back', 'Sweeper',
@@ -90,41 +88,57 @@ function inputStyle(extra = '') {
   return `w-full px-3 py-2.5 rounded-xl text-sm text-white outline-none transition-all ${extra}`;
 }
 
-// ── Step 1: Sport ─────────────────────────────────────────────
-function Step1Sport({ form, onChange }: { form: FormState; onChange: (sport: string) => void }) {
+// ── Step 1: Sport (from DB) ───────────────────────────────────
+function Step1Sport({ form, onChange }: { form: FormState; onChange: (sport: string, type: 'team' | 'individual') => void }) {
+  const { sports, byCategory } = useSports();
   const [q, setQ] = useState('');
-  const filtered = SPORTS.filter(s => s.toLowerCase().includes(q.toLowerCase()));
+
+  const categories = Object.keys(byCategory).filter(cat =>
+    byCategory[cat].some(s => !q || s.name.toLowerCase().includes(q.toLowerCase()))
+  );
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       <div className="relative">
         <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/25" />
         <input
           className={inputStyle('pl-8')}
           style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.10)' }}
-          placeholder="Search sport…"
+          placeholder="Search any sport…"
           value={q}
           onChange={e => setQ(e.target.value)}
         />
       </div>
-      <div className="grid grid-cols-2 gap-2 max-h-64 overflow-y-auto pr-1"
+      <div className="space-y-3 max-h-64 overflow-y-auto pr-1"
         style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.12) transparent' }}>
-        {filtered.map(sport => {
-          const active = form.sport === sport;
+        {sports.length === 0 && <div className="flex items-center justify-center py-6"><Loader2 size={16} className="animate-spin text-white/25" /></div>}
+        {categories.map(cat => {
+          const list = byCategory[cat].filter(s => !q || s.name.toLowerCase().includes(q.toLowerCase()));
           return (
-            <button
-              key={sport}
-              onClick={() => onChange(sport)}
-              className="px-3 py-2.5 rounded-xl text-sm font-medium text-left transition-all"
-              style={{
-                background: active ? 'rgba(184,241,53,0.12)' : 'rgba(255,255,255,0.04)',
-                border: `1px solid ${active ? 'rgba(184,241,53,0.35)' : 'rgba(255,255,255,0.08)'}`,
-                color: active ? '#B8F135' : 'rgba(255,255,255,0.60)',
-                boxShadow: active ? '0 0 12px rgba(184,241,53,0.15)' : 'none',
-              }}
-            >
-              {sport}
-            </button>
+            <div key={cat}>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-white/25 mb-1.5">{cat}</p>
+              <div className="grid grid-cols-2 gap-1.5">
+                {list.map(sport => {
+                  const active = form.sport === sport.name;
+                  return (
+                    <button key={sport.id}
+                      onClick={() => onChange(sport.name, sport.type as 'team' | 'individual')}
+                      className="px-3 py-2.5 rounded-xl text-xs font-medium text-left flex items-center gap-2 transition-all"
+                      style={{
+                        background: active ? 'rgba(184,241,53,0.12)' : 'rgba(255,255,255,0.04)',
+                        border: `1px solid ${active ? 'rgba(184,241,53,0.35)' : 'rgba(255,255,255,0.08)'}`,
+                        color: active ? '#B8F135' : 'rgba(255,255,255,0.60)',
+                      }}>
+                      <span className="text-[9px] px-1 rounded" style={{ background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.30)' }}>
+                        {sport.type === 'team' ? 'TEAM' : 'IND'}
+                      </span>
+                      {sport.name}
+                      {active && <Check size={10} className="ml-auto" />}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           );
         })}
       </div>
@@ -530,6 +544,7 @@ export default function AddMatchFlow({ onClose, onSuccess }: AddMatchFlowProps) 
 
   const [form, setForm] = useState<FormState>({
     sport: '',
+    sportType: 'team',
     competitionId: '',
     competitionName: '',
     fixtureId: null,
@@ -540,6 +555,9 @@ export default function AddMatchFlow({ onClose, onSuccess }: AddMatchFlowProps) 
     minutesPlayed: 90,
     isStarter: true,
     jerseyNumber: '',
+    discipline: '',
+    performanceValue: '',
+    performanceUnit: 's',
   });
 
   function setField<K extends keyof FormState>(key: K, val: FormState[K]) {
@@ -646,7 +664,7 @@ export default function AddMatchFlow({ onClose, onSuccess }: AddMatchFlowProps) 
         <div className="flex-1 overflow-y-auto px-6 pb-4 min-h-0"
           style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.12) transparent' }}>
           {step === 1 && (
-            <Step1Sport form={form} onChange={sport => setField('sport', sport)} />
+            <Step1Sport form={form} onChange={(sport, type) => { setField('sport', sport); setField('sportType', type); }} />
           )}
           {step === 2 && (
             <Step2Competition

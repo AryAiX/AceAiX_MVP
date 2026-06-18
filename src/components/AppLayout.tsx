@@ -72,7 +72,8 @@ function getNav(role: string | null, basePath: string): NavItem[] {
     { label: 'Overview',     path: `${basePath}/dashboard`,    icon: <LayoutDashboard size={17} />, color: '#B8F135', glow: 'rgba(184,241,53,0.35)' },
     { label: 'Users',        path: `${basePath}/users`,        icon: <Users size={17} />,          color: '#2F80ED', glow: 'rgba(47,128,237,0.35)' },
     { label: 'Verification', path: `${basePath}/verification`, icon: <ShieldCheck size={17} />,    color: '#1FB57A', glow: 'rgba(31,181,122,0.35)' },
-    { label: 'Analytics',    path: `${basePath}/analytics`,    icon: <BarChart3 size={17} />,      color: '#F5A623', glow: 'rgba(245,166,35,0.35)' },
+    { label: 'Sports',       path: `${basePath}/sports`,       icon: <Activity size={17} />,       color: '#F5A623', glow: 'rgba(245,166,35,0.35)' },
+    { label: 'Analytics',    path: `${basePath}/analytics`,    icon: <BarChart3 size={17} />,      color: '#2F80ED', glow: 'rgba(47,128,237,0.35)' },
     { label: 'Settings',     path: `${basePath}/settings`,     icon: <Settings size={17} />,       color: '#7C8DA6', glow: 'rgba(124,141,166,0.25)' },
   ];
   return [];
