@@ -98,12 +98,12 @@ export default function AssessmentResults({
   onVisibilityChange,
   modality,
 }: AssessmentResultsProps) {
+  const topSport = sportRecommendations[0];
+
   const [expandedSport, setExpandedSport] = useState<string | null>(null);
   const [visDropdown, setVisDropdown]     = useState(false);
   const overallCounted = useCountUp(overallScore);
   const topScoreCounted = useCountUp(topSport?.potential_score ?? 0);
-
-  const topSport = sportRecommendations[0];
 
   const radarData = [
     { metric: 'Sprint',    value: physicalMetrics.sprint_ms   ? Math.round(100 - (physicalMetrics.sprint_ms - 4000) / 30) : 0 },
