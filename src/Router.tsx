@@ -40,6 +40,7 @@ import AthleteSettings from './pages/athlete/SettingsPage';
 import AthleteOpportunities from './pages/athlete/OpportunitiesPage';
 import AthleteAnalytics from './pages/athlete/AnalyticsPage';
 import AthleteEvents from './pages/athlete/EventsPage';
+import AthleteTalentAssessment from './pages/athlete/TalentAssessmentPage';
 
 // Recruiter
 import RecruiterDashboard from './pages/recruiter/DashboardPage';
@@ -157,6 +158,7 @@ export default function Router() {
           <Route path="ai" element={<AthleteAi />} />
           <Route path="career" element={<AthleteCareer />} />
           <Route path="events" element={<AthleteEvents />} />
+          <Route path="talent" element={<AthleteTalentAssessment />} />
           <Route path="messages" element={<AthleteMessages />} />
           <Route path="network" element={<AthleteNetwork />} />
           <Route path="opportunities" element={<AthleteOpportunities />} />

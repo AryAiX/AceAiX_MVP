@@ -14,6 +14,7 @@ import VerifiedBadge from '../components/ui/VerifiedBadge';
 import StatusChip from '../components/ui/StatusChip';
 
 import VerificationStrip from '../components/profile/VerificationStrip';
+import SportifyBadge from '../components/talent/SportifyBadge';
 import KeyMetricsSection from '../components/profile/KeyMetricsSection';
 import AboutSection from '../components/profile/AboutSection';
 import HighlightsSection from '../components/profile/HighlightsSection';
@@ -256,8 +257,25 @@ export default function AthletePublicProfilePage({ hideHeader = false }: { hideH
   }, []);
 
   // Count-up refs
-  const { val: followerDisplayCount, ref: followerRef } = useCountUp(followerCount);
-  const { val: connCount, ref: connRef } = useCountUp(athlete.connectionsCount);
+  const [publicAssessment, setPublicAssessment] = useState<{
+    sport_recommendations: { sport: string; potential_score: number }[] | null;
+    overall_potential_score: number | null;
+    taken_at: string | null;
+    provenance_hash: string | null;
+  } | null>(null);
+
+  useEffect(() => {
+    supabase
+      .from('assessments')
+      .select('sport_recommendations,overall_potential_score,taken_at,provenance_hash')
+      .eq('athlete_id', profileUserId)
+      .eq('verified', true)
+      .in('visibility', ['scouts', 'public'])
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+      .then(({ data }) => { if (data) setPublicAssessment(data as typeof publicAssessment); });
+  }, [profileUserId]);
 
   const isSelf = user?.id === profileUserId;
 
@@ -587,6 +605,33 @@ export default function AthletePublicProfilePage({ hideHeader = false }: { hideH
           {/* Main column */}
           <div className="flex-1 min-w-0 space-y-4">
             <VerificationStrip />
+
+            {/* Sportify talent assessment badge — only when athlete has shared it */}
+            {publicAssessment && (
+              <div className="rounded-2xl p-4 space-y-3" style={{ background: 'linear-gradient(135deg, rgba(184,241,53,0.08) 0%, rgba(31,181,122,0.05) 100%)', border: '1px solid rgba(31,181,122,0.2)' }}>
+                <div className="flex items-start justify-between flex-wrap gap-2">
+                  <div>
+                    <p className="text-xs font-bold text-white mb-0.5">Talent Assessment</p>
+                    <p className="text-[11px]" style={{ color: '#9DB0C6' }}>Sport potential · verified by Sportify Academy</p>
+                  </div>
+                  <SportifyBadge
+                    date={publicAssessment.taken_at ? new Date(publicAssessment.taken_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : undefined}
+                    provenanceHash={publicAssessment.provenance_hash ?? undefined}
+                    size="sm"
+                  />
+                </div>
+                {publicAssessment.sport_recommendations && publicAssessment.sport_recommendations.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {(publicAssessment.sport_recommendations as { sport: string; potential_score: number }[]).slice(0, 3).map((rec, i) => (
+                      <div key={rec.sport} className="flex items-center gap-2 px-3 py-1.5 rounded-xl" style={{ background: i === 0 ? 'rgba(184,241,53,0.12)' : 'rgba(255,255,255,0.04)', border: `1px solid ${i === 0 ? 'rgba(184,241,53,0.3)' : 'rgba(255,255,255,0.08)'}` }}>
+                        <span className="text-xs font-semibold" style={{ color: i === 0 ? '#B8F135' : 'white' }}>{rec.sport}</span>
+                        <span className="text-[10px] font-bold tabular-nums" style={{ color: i === 0 ? '#B8F135' : '#9DB0C6' }}>{rec.potential_score}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
 
             {activeTab === 'overview' && (
               <>
