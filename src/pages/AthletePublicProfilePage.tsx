@@ -224,7 +224,11 @@ export default function AthletePublicProfilePage({ hideHeader = false }: { hideH
   const [activeTab, setActiveTab] = useState<'overview' | 'performance' | 'career' | 'network'>('overview');
   const [isFollowing, setIsFollowing] = useState(false);
   const [followerCount, setFollowerCount] = useState(athlete.followersCount);
+  const [connectionsCount] = useState(athlete.connectionsCount ?? 0);
   const [followLoading, setFollowLoading] = useState(false);
+
+  const { val: followerDisplayCount, ref: followerRef } = useCountUp(followerCount);
+  const { val: connCount, ref: connRef } = useCountUp(connectionsCount);
   const [isBlocked, setIsBlocked] = useState(false);
   const [blockLoading, setBlockLoading] = useState(false);
   const [blockConfirmOpen, setBlockConfirmOpen] = useState(false);
