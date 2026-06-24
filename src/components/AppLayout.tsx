@@ -8,7 +8,7 @@ import {
   Briefcase, Sun, Moon, ExternalLink, Home, Rss, Compass,
   Inbox, ClipboardList, Award, Bone, CalendarDays, Building2,
   CalendarCheck, Trophy, Layers, CreditCard, DollarSign, Lock, Sliders,
-  Flag, Sparkles,
+  Flag, Sparkles, Film,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -36,6 +36,7 @@ function getNav(role: string | null, basePath: string): NavItem[] {
     { label: 'Talent',        path: `${basePath}/talent`,        icon: <Sparkles size={17} />,      color: '#B8F135', glow: 'rgba(184,241,53,0.35)'  },
     { label: 'Opportunities', path: `${basePath}/opportunities`, icon: <Briefcase size={17} />,     color: '#F5A623', glow: 'rgba(245,166,35,0.35)' },
     { label: 'AI Coach',      path: `${basePath}/ai`,            icon: <Bot size={17} />,           color: '#B8F135', glow: 'rgba(184,241,53,0.35)' },
+    { label: 'Reels',         path: `${basePath}/reels`,         icon: <Film size={17} />,          color: '#B8F135', glow: 'rgba(184,241,53,0.35)' },
     { label: 'Analytics',     path: `${basePath}/analytics`,     icon: <BarChart3 size={17} />,     color: '#2F80ED', glow: 'rgba(47,128,237,0.35)' },
     { label: 'Messages',      path: `${basePath}/messages`,      icon: <MessageSquare size={17} />, color: '#E056A0', glow: 'rgba(224,86,160,0.35)', badge: 3 },
     { label: 'Settings',      path: `${basePath}/settings`,      icon: <Settings size={17} />,      color: '#7C8DA6', glow: 'rgba(124,141,166,0.25)' },

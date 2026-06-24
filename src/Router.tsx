@@ -8,6 +8,7 @@ import AppLayout from './components/AppLayout';
 // Public pages
 import HomePage from './pages/HomePage';
 import FeedPage from './pages/FeedPage';
+import ReelsPage from './pages/ReelsPage';
 import AthletePublicProfilePage from './pages/AthletePublicProfilePage';
 import CoachPublicProfilePage from './pages/CoachPublicProfilePage';
 import ClubPublicProfilePage from './pages/ClubPublicProfilePage';
@@ -133,6 +134,7 @@ export default function Router() {
         <Route path="/athletes" element={<AthletesPage />} />
         <Route path="/clubs" element={<ClubsPage />} />
         <Route path="/highlights" element={<HighlightsPage />} />
+        <Route path="/reels" element={<ReelsPage />} />
         <Route path="/plans" element={<PlansPage />} />
         <Route path="/resources" element={<ResourcesPage />} />
         <Route path="/about" element={<AboutPage />} />
@@ -159,6 +161,7 @@ export default function Router() {
           <Route path="career" element={<AthleteCareer />} />
           <Route path="events" element={<AthleteEvents />} />
           <Route path="talent" element={<AthleteTalentAssessment />} />
+          <Route path="reels" element={<ReelsPage />} />
           <Route path="messages" element={<AthleteMessages />} />
           <Route path="network" element={<AthleteNetwork />} />
           <Route path="opportunities" element={<AthleteOpportunities />} />

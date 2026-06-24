@@ -2,11 +2,16 @@ import React, { useRef, useState, useEffect } from 'react';
 import {
   Heart, MessageCircle, Share2, Play, Zap, ShieldCheck,
   MoreHorizontal, Video, Image as ImageIcon, BarChart3, Send,
-  Plus, ThumbsUp, Shield, FileText,
+  ThumbsUp, Shield, FileText, Film,
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import StoriesRail from '../stories/StoriesRail';
+import StoryViewer from '../stories/StoryViewer';
+import AddStoryFlow from '../stories/AddStoryFlow';
+import { STORY_AUTHORS, STORY_GROUPS } from '../../data/storiesReelsData';
 
-/* ─── Types ─────────────────────────────────────────────── */
+/* ─── Types ─────────────────────────────────────────────────── */
 type PostType = 'highlight' | 'milestone' | 'endorsement' | 'scout_interest' | 'standard';
 
 interface Post {
@@ -24,15 +29,7 @@ interface Post {
   scoutOrg?: string;
 }
 
-/* ─── Data ───────────────────────────────────────────────── */
-const STORIES = [
-  { id: 's1', name: 'Khalid', img: 'https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=200', isNew: true  },
-  { id: 's2', name: 'Noura',  img: 'https://images.pexels.com/photos/1197132/pexels-photo-1197132.jpeg?auto=compress&cs=tinysrgb&w=200', isNew: false },
-  { id: 's3', name: 'Tariq',  img: 'https://images.pexels.com/photos/3764119/pexels-photo-3764119.jpeg?auto=compress&cs=tinysrgb&w=200', isNew: false },
-  { id: 's4', name: 'Rayan',  img: 'https://images.pexels.com/photos/5384445/pexels-photo-5384445.jpeg?auto=compress&cs=tinysrgb&w=200', isNew: false },
-  { id: 's5', name: 'Ahmed',  img: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=200', isNew: false },
-];
-
+/* ─── Data ───────────────────────────────────────────────────── */
 const POSTS: Post[] = [
   {
     id: 'p1', type: 'highlight',
@@ -70,7 +67,7 @@ const POSTS: Post[] = [
   },
 ];
 
-/* ─── Reaction Burst ─────────────────────────────────────── */
+/* ─── Local reaction burst ───────────────────────────────────── */
 function ReactionBurst({ children }: { children: React.ReactNode }) {
   const [burst, setBurst] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -110,7 +107,7 @@ function ReactionBurst({ children }: { children: React.ReactNode }) {
   );
 }
 
-/* ─── Action button ─────────────────────────────────────── */
+/* ─── Action button ─────────────────────────────────────────── */
 function ActionBtn({ onClick, className, children }: { onClick?: () => void; className: string; children: React.ReactNode }) {
   return (
     <button
@@ -125,7 +122,7 @@ function ActionBtn({ onClick, className, children }: { onClick?: () => void; cla
   );
 }
 
-/* ─── Post header ────────────────────────────────────────── */
+/* ─── Post header ────────────────────────────────────────────── */
 function PostHeader({ author, time, menuOpen, setMenuOpen, menuRef }: {
   author: Post['author']; time: string;
   menuOpen: boolean; setMenuOpen: (v: boolean) => void;
@@ -162,7 +159,7 @@ function PostHeader({ author, time, menuOpen, setMenuOpen, menuRef }: {
   );
 }
 
-/* ─── Action bar ────────────────────────────────────────── */
+/* ─── Action bar ────────────────────────────────────────────── */
 function ActionBar({ liked, likes, onLike, endorse = false }: {
   liked: boolean; likes: number; onLike: () => void; endorse?: boolean;
 }) {
@@ -195,7 +192,7 @@ function ActionBar({ liked, likes, onLike, endorse = false }: {
   );
 }
 
-/* ─── Post Card ─────────────────────────────────────────── */
+/* ─── Post Card ─────────────────────────────────────────────── */
 function PostCard({ post, index }: { post: Post; index: number }) {
   const [likes,   setLikes]   = useState(post.likes);
   const [liked,   setLiked]   = useState(false);
@@ -230,7 +227,6 @@ function PostCard({ post, index }: { post: Post; index: number }) {
     transition: `opacity 0.4s ease ${index * 0.08}s, transform 0.4s cubic-bezier(0.19,1,0.22,1) ${index * 0.08}s`,
   };
 
-  /* Scout interest */
   if (post.type === 'scout_interest') {
     return (
       <div ref={cardRef} className="card p-4 mb-3 flex items-center gap-4" style={{ ...enterStyle, borderLeft: '4px solid #F5A623' }}>
@@ -246,7 +242,6 @@ function PostCard({ post, index }: { post: Post; index: number }) {
     );
   }
 
-  /* Milestone */
   if (post.type === 'milestone') {
     return (
       <div ref={cardRef} className="card p-5 mb-3" style={{ ...enterStyle, borderLeft: '4px solid #1FB57A' }}>
@@ -263,7 +258,6 @@ function PostCard({ post, index }: { post: Post; index: number }) {
     );
   }
 
-  /* Endorsement */
   if (post.type === 'endorsement') {
     return (
       <div ref={cardRef} className="card p-5 mb-3" style={{ ...enterStyle, borderLeft: '4px solid #2F80ED' }}>
@@ -278,7 +272,6 @@ function PostCard({ post, index }: { post: Post; index: number }) {
     );
   }
 
-  /* Highlight (with media) */
   if (post.type === 'highlight') {
     return (
       <div ref={cardRef} className="card overflow-hidden mb-3" style={enterStyle}>
@@ -314,7 +307,6 @@ function PostCard({ post, index }: { post: Post; index: number }) {
     );
   }
 
-  /* Standard */
   return (
     <div ref={cardRef} className="card p-5 mb-3" style={enterStyle}>
       <PostHeader author={post.author} time={post.time} menuOpen={menuOpen} setMenuOpen={setMenuOpen} menuRef={menuRef as React.RefObject<HTMLButtonElement>} />
@@ -325,34 +317,7 @@ function PostCard({ post, index }: { post: Post; index: number }) {
   );
 }
 
-/* ─── Story Row ─────────────────────────────────────────── */
-function StoryRow() {
-  return (
-    <div className="card p-3 mb-3 overflow-x-auto scrollbar-hidden">
-      <div className="flex gap-3">
-        <div className="flex flex-col items-center gap-1.5 flex-shrink-0">
-          <div className="w-14 h-14 rounded-full border-2 border-dashed border-azure flex items-center justify-center bg-azure/5 cursor-pointer hover:bg-azure/10 transition-colors">
-            <Plus size={20} className="text-azure" />
-          </div>
-          <p className="text-[10px] text-white/40 font-medium">Add story</p>
-        </div>
-        {STORIES.map(s => (
-          <div key={s.id} className="flex flex-col items-center gap-1.5 flex-shrink-0">
-            <div
-              className="w-14 h-14 rounded-full p-0.5 cursor-pointer"
-              style={{ background: s.isNew ? '#2F80ED' : 'rgba(255,255,255,0.15)' }}
-            >
-              <img src={s.img} alt={s.name} className="w-full h-full rounded-full object-cover ring-2 ring-[#16273B]" />
-            </div>
-            <p className="text-[10px] text-white/40 font-medium truncate w-14 text-center">{s.name}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/* ─── Post Composer ─────────────────────────────────────── */
+/* ─── Post Composer ─────────────────────────────────────────── */
 function PostComposer() {
   const { profile } = useAuth();
   const [text, setText] = useState('');
@@ -389,7 +354,66 @@ function PostComposer() {
   );
 }
 
-/* ─── Load More ─────────────────────────────────────────── */
+/* ─── Reels entry tile ──────────────────────────────────────── */
+function ReelsEntryTile({ onClick }: { onClick: () => void }) {
+  const PREVIEWS = [
+    'https://images.pexels.com/photos/1884574/pexels-photo-1884574.jpeg?auto=compress&cs=tinysrgb&w=400',
+    'https://images.pexels.com/photos/274422/pexels-photo-274422.jpeg?auto=compress&cs=tinysrgb&w=400',
+    'https://images.pexels.com/photos/3621104/pexels-photo-3621104.jpeg?auto=compress&cs=tinysrgb&w=400',
+  ];
+
+  return (
+    <div
+      className="card overflow-hidden mb-3 cursor-pointer group"
+      onClick={onClick}
+      style={{ transition: 'transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease' }}
+      onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-2px)'; (e.currentTarget as HTMLDivElement).style.boxShadow = '0 12px 40px rgba(184,241,53,0.12)'; }}
+      onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = ''; (e.currentTarget as HTMLDivElement).style.boxShadow = ''; }}
+    >
+      {/* Preview strip */}
+      <div className="flex h-32 overflow-hidden relative">
+        {PREVIEWS.map((src, i) => (
+          <div key={i} className="flex-1 overflow-hidden" style={{ filter: i === 1 ? 'brightness(1.1)' : 'brightness(0.7)' }}>
+            <img src={src} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+          </div>
+        ))}
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(90deg, rgba(12,26,43,0.55), transparent, rgba(12,26,43,0.55))' }} />
+
+        {/* Center play button */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div
+            className="w-12 h-12 rounded-full flex items-center justify-center"
+            style={{
+              background: 'rgba(12,26,43,0.85)',
+              border: '2px solid rgba(184,241,53,0.5)',
+              backdropFilter: 'blur(8px)',
+              boxShadow: '0 0 20px rgba(184,241,53,0.25)',
+              transition: 'transform 0.2s cubic-bezier(0.34,1.56,0.64,1)',
+            }}
+          >
+            <Film size={20} style={{ color: '#B8F135' }} />
+          </div>
+        </div>
+      </div>
+
+      <div className="px-4 py-3 flex items-center justify-between">
+        <div>
+          <p className="font-semibold text-white text-sm font-display">Reels</p>
+          <p className="text-xs text-white/40 mt-0.5">Short clips from athletes you follow</p>
+        </div>
+        <div
+          className="px-3 py-1.5 rounded-xl text-xs font-bold"
+          style={{ background: 'rgba(184,241,53,0.12)', border: '1px solid rgba(184,241,53,0.28)', color: '#B8F135' }}
+        >
+          Watch
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Load More ─────────────────────────────────────────────── */
 function LoadMore({ onClick, loading }: { onClick: () => void; loading: boolean }) {
   return (
     <div className="flex justify-center py-8">
@@ -405,20 +429,55 @@ function LoadMore({ onClick, loading }: { onClick: () => void; loading: boolean 
   );
 }
 
-/* ─── Main ──────────────────────────────────────────────── */
+/* ─── Main ──────────────────────────────────────────────────── */
 export default function FeedCenter() {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [viewingStoryAuthor, setViewingStoryAuthor] = useState<string | null>(null);
+  const [showAddStory, setShowAddStory] = useState(false);
+
+  /* Find group index for the clicked author */
+  const initialGroupIdx = viewingStoryAuthor
+    ? Math.max(0, STORY_GROUPS.findIndex(g => g.authorId === viewingStoryAuthor))
+    : 0;
 
   return (
     <div className="min-h-screen py-4">
       <div className="max-w-2xl mx-auto">
-        <StoryRow />
+        {/* Stories rail */}
+        <StoriesRail
+          authors={STORY_AUTHORS}
+          onAuthorClick={id => setViewingStoryAuthor(id)}
+          onAddClick={() => setShowAddStory(true)}
+        />
+
         <PostComposer />
-        <div>
-          {POSTS.map((post, i) => <PostCard key={post.id} post={post} index={i} />)}
-        </div>
+
+        {/* Reels entry tile (after first post) */}
+        {POSTS.slice(0, 1).map((post, i) => <PostCard key={post.id} post={post} index={i} />)}
+        <ReelsEntryTile onClick={() => navigate('/reels')} />
+        {POSTS.slice(1).map((post, i) => <PostCard key={post.id} post={post} index={i + 1} />)}
+
         <LoadMore onClick={() => { setLoading(true); setTimeout(() => setLoading(false), 1200); }} loading={loading} />
       </div>
+
+      {/* Story viewer */}
+      {viewingStoryAuthor && (
+        <StoryViewer
+          groups={STORY_GROUPS}
+          initialGroupIndex={initialGroupIdx}
+          onClose={() => setViewingStoryAuthor(null)}
+          isOwnStory={id => id === 'a1'} /* mock: a1 is "me" */
+        />
+      )}
+
+      {/* Add story flow */}
+      {showAddStory && (
+        <AddStoryFlow
+          onClose={() => setShowAddStory(false)}
+          onPublished={() => setShowAddStory(false)}
+        />
+      )}
     </div>
   );
 }
